@@ -88,12 +88,14 @@ public class RelationshipsInRealWorld {
     public static void insertHierarchical(){    
         //Self Relationship & Hierarchical
         //Employees Info
-        
+	    
         Employee__c emp = new Employee__c();
         
         emp.Name = 'Sagar Nirwal';
-        emp.Mentor__c ='a0D5i000001rT2CEAU' ;
-        emp.Trainer__c ='a0D5i000001rT27EAE' ;
+	    
+	Employee__c employee = [SELECT Mentor__c,Trainer__c FROM Employee__c WHERE Name LIKE 'Sushil Choudhary' LIMIT 1];     
+        emp.Mentor__c = employee.Id;
+        emp.Trainer__c = employee.Mentor__c ;
         
         insert emp;
         system.debug('Inseted Employees Info :' + emp.id);
@@ -103,7 +105,8 @@ public class RelationshipsInRealWorld {
         Account account = new Account();
         
         account.Name = 'GE India';
-        account.ParentId = '0015i0000085gmcAAA';
+	Account accId = [SELECT Id,ParentId FROM Account WHERE Name Like 'General Electric New York US' LIMIT 1];
+        account.ParentId = accId.ParentId;
         
         insert account;
         system.debug('Inseted Employees Info :' + account.id);
@@ -122,16 +125,18 @@ public class RelationshipsInRealWorld {
         lead.Email = 'sagar.nirwal@fexle.com';
         lead.Status = 'Working - Contacted';
         lead.Rating = 'Warm';
-        lead.Account__c = '0015i0000085gmcAAA';
+        lead.Account__c = accId.Id;
         
         insert lead;
         system.debug('Inseted Lead Info :' + lead.id);
         
         //One Contact Headquarter account
         Contact con = new Contact();
-        
-        con.Id = '0035i000007ooJtAAI';
-        con.AccountId = '0015i0000085gmcAAA';
+	    
+        Contact contact = [SELECT Id FROM Contact WHERE Name Like 'Sagar Nirwal' Limit 1];
+	
+        con.Id = contact.Id;
+        con.AccountId = accId.Id;
         
         update con;
         system.debug('Update Contact :' + con.id);      
