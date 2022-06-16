@@ -37,8 +37,8 @@ public class RelationshipsInRealWorld {
         insert college;
         system.debug('Inserted  College Info :' + college.id);
         
-		//Teacher Info
-		Teacher__c teacher = new Teacher__c();
+	//Teacher Info
+	Teacher__c teacher = new Teacher__c();
         
         teacher.Name = 'Pankaj Dangre';
         teacher.College__c = college.Id;
@@ -106,7 +106,7 @@ public class RelationshipsInRealWorld {
         Account account = new Account();
         
         account.Name = 'GE India';
-		Account accId = [SELECT Id,ParentId FROM Account WHERE Name Like 'General Electric New York US' LIMIT 1];
+	Account accId = [SELECT Id,ParentId FROM Account WHERE Name Like 'General Electric New York US' LIMIT 1];
         account.ParentId = accId.ParentId;
         
         insert account;
