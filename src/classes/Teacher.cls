@@ -9,21 +9,21 @@ public class Teacher {
         
         //Student Info
         //student.RecordTypeId = '';
-		student.Email__c = 'Shivam@gmail.com';
-		student.Address__c = '247, Ramnagariya, Jagatpura, Jaipur';
-		student.Name = 'Shivam Raj';
+	student.Email__c = 'Shivam@gmail.com';
+	student.Address__c = '247, Ramnagariya, Jagatpura, Jaipur';
+	student.Name = 'Shivam Raj';
         //student.Mobile_Number__c = '8239141950';
-		student.Father_Name__c = 'Ravindar Raj';
+	student.Father_Name__c = 'Ravindar Raj';
         student.Father_Mobile_Number__c = '9457774005';
-		//student.Roll_Number__c = 234567;
-		student.Overall_Grade__c = 79.98;
-		student.Student_Hobby__c = 'Cricket;Badminton;Anime';
+	//student.Roll_Number__c = 234567;
+	student.Overall_Grade__c = 79.98;
+	student.Student_Hobby__c = 'Cricket;Badminton;Anime';
         student.LinkedIn__c = 'https://www.linkedin.com/in/shivam-raj/';
         
         //Class Info
-		student.Stream__c = 'BCA';
-		student.Class__c = 'Digital Marketing';
-		student.Section__c = 'A';
+	student.Stream__c = 'BCA';
+	student.Class__c = 'Digital Marketing';
+	student.Section__c = 'A';
         
         //Fees Details
         student.Current_Year__c =date.parse('2/08/2022');
@@ -41,7 +41,7 @@ public class Teacher {
         student.X4th_Sem_Back__c = False;
         student.Subject_in_Which_1st_Sem_Back__c = 'Chemistry';
         student.Subjects_in_which_3rd_Sem_Back__c = 'Machine Learning';
- 		student.Subject_in_Which_4th_Sem_Back__c = '';
+ 	student.Subject_in_Which_4th_Sem_Back__c = '';
             
         insert student;
         system.debug('Inserted Record Data :' + student.id);
