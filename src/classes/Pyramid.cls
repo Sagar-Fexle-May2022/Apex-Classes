@@ -26,30 +26,33 @@ public with sharing class Pyramid {
     {
         integer i,k;
         boolean count = true;
+        string s = ' ';
         for(i = 1,k=0;i<=(2*n-1);i++)
         {
             if(i < n-k){
-                system.debug(' ');
+                s = s+' ';
             }else
             {
                 if(count)
                 {
-                    system.debug('*');
+                    s = s+'*';
                 }else
                 {
-                    system.debug(' ');
+                    s = s+'';
                     count = false;
                 }
             }
             if( i== n+k){
                 k++;
-                system.debug(' ');
+                s = s+'';
                 if(i == (2*n-1))
                 {
                     break;
                 }
                 i = 0;
                 count = true;
+                system.debug(s);
+                s = ' ';
             }
         }
     }
