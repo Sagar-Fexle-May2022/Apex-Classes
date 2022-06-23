@@ -25,18 +25,18 @@ public with sharing class ReversedPyramidUsingOneLoop {
     public ReversedPyramidUsingOneLoop(integer n) {
         integer j=0;
         // Loop to print desired pattern
-
+	string s = ' ';
         for ( integer i = 1; i <= n;)
         {
             // current line number
             if (j < i-1)
             {
-                system.debug('  ');
+                s = s +' ';
                 j++;
                 continue;
             }
 			if(j < (2*n-i)){
-				system.debug('* ');
+				s = s +'* ';
 				j++;
 				continue;
 			}
@@ -44,9 +44,11 @@ public with sharing class ReversedPyramidUsingOneLoop {
             // Else time to print a new line
             if (j == (2*n-i))
             {
-                system.debug('');
+                s = s + '';
                 i++;
                 j = 0;
+		system.debug(s);
+                s = ' ';    
             }
         }
     }
