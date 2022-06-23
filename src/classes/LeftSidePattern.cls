@@ -48,5 +48,5 @@ public with sharing class LeftSidePattern {
         	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
 
     	return s;
-	} 
+    } 
 }
