@@ -26,7 +26,8 @@ public with sharing class ReversedPyramid {
 
         for(integer i=1;i<=n;i++)
         {
-            string s = '  ';
+            string s = ' ';
+            string b = '  ';
             for(integer j=1;j<=(2*n-1);j++)
             {
                 if(j>=i && j<=2*n-i)
@@ -34,10 +35,16 @@ public with sharing class ReversedPyramid {
                     s = s +'*';
                 }else
                 {
-                    s = s +' ';
+                    s = s + preserveWhitespace(b);
                 }
             }
             system.debug(s);
         }
     }
+    public static String preserveWhitespace(String s){
+		if(s!= null)
+        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+
+    	return s;
+	}
 }
