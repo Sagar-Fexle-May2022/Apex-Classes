@@ -27,7 +27,8 @@ public with sharing class LeftSidePattern {
     {
         for(integer i=1;i<=n;i++)
         {
-            string s='  ';
+            string s=' ';
+            string b='  ';
             for(integer j=1;j<=n;j++)
             {
                 if(j>=(n+1-i) )
@@ -36,10 +37,16 @@ public with sharing class LeftSidePattern {
                 }
                 else
                 {
-                     s = s + ' ';
+                     s = s + preserveWhitespace(b);
                 }
             }
             system.debug(s);
         }
     }
+    public static String preserveWhitespace(String s){
+		if(s!= null)
+        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+
+    	return s;
+	} 
 }
