@@ -26,12 +26,13 @@ public with sharing class ReversedPyramidUsingOneLoop {
         integer j=0;
         // Loop to print desired pattern
 	string s = ' ';
+	string b = '  ';    
         for ( integer i = 1; i <= n;)
         {
             // current line number
             if (j < i-1)
             {
-                s = s +' ';
+                s = s + preserveWhitespace(b);
                 j++;
                 continue;
             }
@@ -48,8 +49,14 @@ public with sharing class ReversedPyramidUsingOneLoop {
                 i++;
                 j = 0;
 		system.debug(s);
-                s = ' ';    
+                s = preserveWhitespace(b);    
             }
         }
+    }
+    public static String preserveWhitespace(String s){
+	if(s!= null)
+        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+
+    	return s;
     }
 }
