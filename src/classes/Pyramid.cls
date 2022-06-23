@@ -27,10 +27,11 @@ public with sharing class Pyramid {
         integer i,k;
         boolean count = true;
         string s = ' ';
+        string b = '  ';
         for(i = 1,k=0;i<=(2*n-1);i++)
         {
             if(i < n-k){
-                s = s+' ';
+                s = s + preserveWhitespace(b);
             }else
             {
                 if(count)
@@ -52,8 +53,14 @@ public with sharing class Pyramid {
                 i = 0;
                 count = true;
                 system.debug(s);
-                s = ' ';
+                s = preserveWhitespace(b);
             }
         }
     }
+    public static String preserveWhitespace(String s){
+		if(s!= null)
+        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+
+    	return s;
+	}
 }
