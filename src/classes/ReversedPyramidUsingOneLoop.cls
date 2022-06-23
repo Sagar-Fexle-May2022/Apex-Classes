@@ -10,7 +10,7 @@
 *
 **/
 public with sharing class ReversedPyramidUsingOneLoop {
-    /**   Description :   Reversed Pyramid Using Two Loop
+    /**   Description :   Reversed Pyramid Using One Loop
     *
     *     Created By  :   Sagar Nirwal
     *
