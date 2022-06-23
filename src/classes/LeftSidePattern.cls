@@ -44,7 +44,7 @@ public with sharing class LeftSidePattern {
         }
     }
     public static String preserveWhitespace(String s){
-		if(s!= null)
+	if(s!= null)
         	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
 
     	return s;
