@@ -45,5 +45,5 @@ public with sharing class DownPatternHolo {
         	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
 
     	return s;
-	}
+    }
 }
