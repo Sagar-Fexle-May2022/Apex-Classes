@@ -23,6 +23,7 @@ public with sharing class LeftTrianglePascal {
     * 
     **/
     public LeftTrianglePascal(integer n, integer a) {
+        // integer a = n+1;
         for(integer i=1;i<=(2*n-1);i++)
         {
             if(i<=n)
@@ -32,7 +33,8 @@ public with sharing class LeftTrianglePascal {
             {
                 a++;
             }
-            string s = '  ';
+            string s = ' ';
+            string b = '  ';
             for(integer j=1;j<=n;j++)
             {
                 if(j>=a)
@@ -40,10 +42,16 @@ public with sharing class LeftTrianglePascal {
                     s = s + '*';
                 }else
                 {
-                    s = s + ' ';
+                    s = s + preserveWhitespace(b);
                 }
             }
             system.debug(s);
         }
+    }
+    public static String preserveWhitespace(String s){
+	    if(s!= null)
+        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+
+    	return s;
     }
 }
