@@ -42,9 +42,9 @@ public with sharing class ReversedPyramid {
         }
     }
     public static String preserveWhitespace(String s){
-		if(s!= null)
+	if(s!= null)
         	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
 
     	return s;
-	}
+    }
 }
