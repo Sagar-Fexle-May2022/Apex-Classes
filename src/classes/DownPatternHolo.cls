@@ -25,18 +25,25 @@ public with sharing class DownPatternHolo {
     public DownPatternHolo(integer n) {
         for(integer i=1;i<=n;i++)
         {
-            string s = '  ';
-            for(integer j=1;j<=(2*n-1);j++)
+            string s = ' ';
+            string b = '  ';
+            for(integer j=1;j<=(2*n);j++)
             {
                 if(i==1||j==i||i+j==2*n)
                 {
-                    s = s+'*';
+                    s = s + '*';
                 }else
                 {
-                    s = s+' '; 
+                    s = s + preserveWhitespace(b); 
                 }
             }
             system.debug(s);
         }
     }
+    public static String preserveWhitespace(String s){
+		if(s!= null)
+        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+
+    	return s;
+	}
 }
