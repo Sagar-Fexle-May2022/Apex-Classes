@@ -22,8 +22,8 @@ public with sharing class LeftTrianglePascal {
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified
     * 
     **/
-    public LeftTrianglePascal(integer n, integer a) {
-        // integer a = n+1;
+    public LeftTrianglePascal(integer n) {
+        integer a = n+1;
         for(integer i=1;i<=(2*n-1);i++)
         {
             if(i<=n)
