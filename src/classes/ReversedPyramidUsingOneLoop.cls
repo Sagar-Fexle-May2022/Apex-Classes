@@ -36,11 +36,11 @@ public with sharing class ReversedPyramidUsingOneLoop {
                 j++;
                 continue;
             }
-			if(j < (2*n-i)){
-				s = s +'* ';
-				j++;
-				continue;
-			}
+	    if(j < (2*n-i)){
+		s = s +'* ';
+		j++;
+		continue;
+	    }
 			
             // Else time to print a new line
             if (j == (2*n-i))
