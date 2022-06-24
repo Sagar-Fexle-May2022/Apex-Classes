@@ -28,24 +28,29 @@ public with sharing class Pyramid {
         boolean count = true;
         string s = ' ';
         string b = '  ';
+        string a = ' ';
         for(i = 1,k=0;i<=(2*n-1);i++)
         {
-            if(i < n-k){
-                s = s + preserveWhitespace(b);
+            if(i < n-k){                                    
+                s = s + preserveWhitespace(b) ;
             }else
             {
                 if(count)
                 {
-                    s = s+'*';
+                    if(k==0 && i==n ) {
+                        s = s + preserveWhitespace(b) + ' *';
+                    } else {
+                        s = s + ' *';
+                    }
                 }else
                 {
-                    s = s+'';
+                    s = s + preserveWhitespace(a);
                     count = false;
                 }
             }
             if( i== n+k){
                 k++;
-                s = s+'';
+                s = s + preserveWhitespace(a);
                 if(i == (2*n-1))
                 {
                     break;
@@ -53,14 +58,14 @@ public with sharing class Pyramid {
                 i = 0;
                 count = true;
                 system.debug(s);
-                s = preserveWhitespace(b);
+                s = preserveWhitespace(b);     
             }
         }
     }
     public static String preserveWhitespace(String s){
-	if(s!= null)
-        	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
+        if(s!= null)
+            s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
 
-    	return s;
+        return s;
     }
 }
