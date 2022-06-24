@@ -14,6 +14,15 @@
         <members>Seminar</members>
         <members>SetOfProduct</members>
 		    <members>DownPatternHolo</members>
+	      <members>DreamWorld</members>
+        <members>HelloWorld</members>
+	      <members>Register</members>
+        <members>RegisterDebug</members>
+        <members>Teacher</members>
+        <members>TeacherDebug</members>
+        <members>RelationshipsInRealWorld</members>
+        <members>RelationshipsInRealWorldDebug</members>
+        <members>DownPatternHolo</members>
         <members>HelloWorldTestClass</members>
         <members>LeftSidePattern</members>
         <members>LeftTrianglePascal</members>
@@ -21,6 +30,8 @@
         <members>Pyramid</members>
         <members>ReversedPyramid</members>
         <members>ReversedPyramidUsingOneLoop</members>
+        <members>RelationshipsInRealWorld</members>
+        <members>RelationshipsInRealWorldDebug</members>
         <name>ApexClass</name>
     </types>
 	<types>
@@ -28,7 +39,7 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-		<members>Dream_World__c.First_Dream__c</members>
+	<members>Dream_World__c.First_Dream__c</members>
         <members>Hello_World__c.First_Hello_World__c</members>
         <members>Hello_World__c.Second_Hello_World__c</members>
         <members>Hello_World__c.Third_Hell_World__c</members>
@@ -36,6 +47,7 @@
     </types>
     <types>
 		    <members>Dream_World__c</members>
+	      <members>Dream_World__c</members>
         <members>Hello_World__c</members>
         <members>Student__c</members>
         <members>Account</members>
@@ -54,6 +66,23 @@
     </types>
     <types>
 		    <members>Dream_World__c</members>
+        <members>Book__c</members>
+        <members>Student__c</members>
+        <members>Account</members>
+        <members>College__c</members>
+        <members>Contact</members>
+        <members>Employee__c</members>
+        <members>Lead</members>
+        <members>Pan_Card__c</members>
+        <members>StudentSubjects__c</members>
+        <members>Student__c</members>
+        <members>Subject__c</members>
+        <members>Teacher__c</members>
+        <members>Year_Of_Class__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+	<members>Dream_World__c</members>
         <members>Hello_World__c</members>
         <members>Student__c</members>
         <members>College__c</members>
@@ -65,6 +94,16 @@
         <members>Teacher__c</members>
         <members>Year_Of_Class__c</members>
 		    <members>Book__c</members>
+        <members>Book__c</members>
+        <members>Student__c</members>
+        <members>College__c</members>
+        <members>Employee__c</members>
+        <members>Pan_Card__c</members>
+        <members>StudentSubjects__c</members>
+        <members>Student__c</members>
+        <members>Subject__c</members>
+        <members>Teacher__c</members>
+        <members>Year_Of_Class__c</members>
         <name>CustomTab</name>
     </types>
 	<types>
