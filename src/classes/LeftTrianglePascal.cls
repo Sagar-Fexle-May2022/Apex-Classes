@@ -48,6 +48,18 @@ public with sharing class LeftTrianglePascal {
             system.debug(s);
         }
     }
+    /**   Description :   Left Triangle Pascal Using two Loop
+    *
+    *     Created By  :   Sagar Nirwal
+    *
+    *     Arguments   :   String passing a space for the conversion into character 
+    *
+    *     Return      :   return String 
+    *
+    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified
+    * 
+    **/
     public static String preserveWhitespace(String s){
 	if(s!= null)
         	s = s.replace(' ',String.fromCharArray( new Integer[] { 160 }));
