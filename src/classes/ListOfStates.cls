@@ -89,9 +89,9 @@ public with sharing class ListOfStates {
         // integerlist2 elements are copied from integerlist
         System.debug(integerlist2);
 
-        integerlist2.add(47);
+        integerlist2.add(1);
         Integer myNumber = integerlist.get(0);
-        system.assertEquals(47, myNumber);
+        system.assertEquals(1, myNumber);
     }
     /**   Description :   Collection List of Object using clone method
     *
