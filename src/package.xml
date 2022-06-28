@@ -32,6 +32,14 @@
         <members>ReversedPyramidUsingOneLoop</members>
         <members>RelationshipsInRealWorld</members>
         <members>RelationshipsInRealWorldDebug</members>
+	<members>Call</members>
+	<members>Constructor</members>
+	<members>ControlFlow</members>
+	<members>ControlFlowStatement</members>
+	<members>Expression</members>
+	<members>GetterandSetter</members>
+	<members>Overloading</members>
+	<members>Overriding</members>
         <name>ApexClass</name>
     </types>
 	<types>
