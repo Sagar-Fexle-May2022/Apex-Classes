@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-	      <members>DreamWorld</members>
+	    <members>DreamWorld</members>
         <members>HelloWorld</members>
-	      <members>Register</members>
+	    <members>Register</members>
         <members>RegisterDebug</members>
         <members>Teacher</members>
         <members>TeacherDebug</members>
-	      <members>RelationshipsInRealWorld</members>
-	      <members>RelationshipsInRealWorldDebug</members>
+	    <members>RelationshipsInRealWorld</members>
+		<members>RelationshipsInRealWorldDebug</members>
         <members>ListOfStates</members>
         <members>MapOfProduct</members>
         <members>Seminar</members>
         <members>SetOfProduct</members>
-	      <members>DownPatternHolo</members>
-	      <members>DreamWorld</members>
+	    <members>DownPatternHolo</members>
+	    <members>DreamWorld</members>
         <members>HelloWorld</members>
-	      <members>Register</members>
+	    <members>Register</members>
         <members>RegisterDebug</members>
         <members>Teacher</members>
         <members>TeacherDebug</members>
@@ -32,7 +32,7 @@
         <members>ReversedPyramidUsingOneLoop</members>
         <members>RelationshipsInRealWorld</members>
         <members>RelationshipsInRealWorldDebug</members>
-	      <members>Call</members>
+		<members>Call</members>
         <members>Constructor</members>
         <members>ControlFlow</members>
         <members>ControlFlowStatement</members>
@@ -40,7 +40,6 @@
         <members>GetterandSetter</members>
         <members>Overloading</members>
         <members>Overriding</members>
-        <name>ApexClass</name>
     </types>
 	<types>
         <members>HelloWorldTrigger</members>
