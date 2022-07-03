@@ -21,7 +21,7 @@
         <members>ReversedPyramidUsingOneLoop</members>
         <members>RelationshipsInRealWorld</members>
         <members>RelationshipsInRealWorldDebug</members>
-		    <members>Call</members>
+		<members>Call</members>
         <members>Constructor</members>
         <members>ControlFlow</members>
         <members>ControlFlowStatement</members>
@@ -29,6 +29,14 @@
         <members>GetterandSetter</members>
         <members>Overloading</members>
         <members>Overriding</members>
+		<members>BankTransaction</members>
+		<members>ClassSuper</members>
+		<members>ClassThis</members>
+		<members>Country</members>
+		<members>InstanceOfClass</members>
+		<members>MemberCasting</members>
+		<members>Order</members>
+		<members>Student</members>
         <name>ApexClass</name>
     </types>
 	<types>
@@ -36,15 +44,15 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-	<members>Dream_World__c.First_Dream__c</members>
+	    <members>Dream_World__c.First_Dream__c</members>
         <members>Hello_World__c.First_Hello_World__c</members>
         <members>Hello_World__c.Second_Hello_World__c</members>
         <members>Hello_World__c.Third_Hell_World__c</members>
         <name>CustomField</name>
     </types>
     <types>
-	      <members>Dream_World__c</members>
-	      <members>Dream_World__c</members>
+	    <members>Dream_World__c</members>
+	    <members>Dream_World__c</members>
         <members>Hello_World__c</members>
         <members>Student__c</members>
         <members>Account</members>
