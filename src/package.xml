@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
+		<members>AccessingData</members>
         <members>ListOfStates</members>
         <members>MapOfProduct</members>
         <members>Seminar</members>
@@ -66,7 +67,7 @@
         <members>Subject__c</members>
         <members>Teacher__c</members>
         <members>Year_Of_Class__c</members>
-	<members>Book__c</members>
+	    <members>Book__c</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -98,7 +99,7 @@
         <members>Subject__c</members>
         <members>Teacher__c</members>
         <members>Year_Of_Class__c</members>
-	<members>Book__c</members>
+	    <members>Book__c</members>
         <members>Book__c</members>
         <members>Student__c</members>
         <members>College__c</members>
