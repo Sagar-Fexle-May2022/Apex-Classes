@@ -138,44 +138,35 @@ public with sharing class Country {
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void getCountryWithLetter(String countryLetter,Integer letterSize){
-        // Map for getting coutries from the given code
-        Map<String, Map<String, List<String>>> cMap = new Map<String, Map<String, List<String>>>();
-        // String for getting Country Name
-		String countryStartLetter = '';
-        for(String str : countryWithCodeMap.keySet()){
+        
+        Map<String, List<String>> cMap = new Map<String, List<String>>();
+		
+        String countryStartLetter = '';
+        for(String str : countryMap.keySet()){
             if(str.startsWith(countryLetter)){
-                cMap = countryWithCodeMap.get(str);
+                cMap = countryMap.get(str);
+                System.debug('Country : '+str);
             }
         }
-        // Map for getting states nad cities
-        Map<String, List<String>> sMap = new Map<String, List<String>>();
+        List<String> cityList = new List<String>();
         for(String str : cMap.keyset()){
-            System.debug('Country : '+str);
-            sMap = cMap.get(str);
+            if(str.startsWith(countryLetter)){
+                System.debug('State : '+str);
+            }
+            cityList.addAll(cMap.get(str));
             countryStartLetter = str;
         }
-        // List for getting list of cities from the given country
-        List<String> cList = new List<String>();
-        for(String str : sMap.keyset()){
-            if(str.charAt(0) == countryStartLetter.charAt(0) ){
-                System.debug('State : '+str);
-            }    
-        } 
-        for(List<String> str : sMap.values()){
-            for(String st :str ){
-                if(st.charAt(0) == countryStartLetter.charAt(0) ){
-                    System.debug('District : '+st);
-                }
+        for(String str : cityList){
+            if(str.startsWith(countryLetter)){
+                System.debug('District : '+str);
             }
         }
         System.debug('District with Greater Interger : ');
         List<String> greaterDistrictFormInteger = new List<String>();
-        for(List<String> str : sMap.values()){
-            for(String st :str ){
-                if( st.length() >= letterSize ){
-                    greaterDistrictFormInteger.add(st);
+        for(String str : cityList){
+                if( str.length() >= letterSize ){
+                    greaterDistrictFormInteger.add(str);
                 }
-            }
         }
         System.debug(greaterDistrictFormInteger);
     }
