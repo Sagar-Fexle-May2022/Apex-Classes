@@ -139,10 +139,6 @@ public with sharing class Country {
     **/
     public static void combinationCountryStateDistrict(String combinationLetter,Integer districtSize){
         
-        Map<String,List<String>> mapOfState = new  Map<String,List<String>>();
-        List<String> listOfDistrict = new List<String>();
-		
-        String countryStartLetter = '';
         for(String countryName : countryMap.keySet()){
             if(countryName.startsWith(combinationLetter)){
                 for(String stateName : countryMap.get(countryName).keySet()){
@@ -158,11 +154,9 @@ public with sharing class Country {
         }
         System.debug('District with Greater Interger : '); 
         for(String countryName : countryMap.keySet()){
-        	mapOfState = countryMap.get(countryName);
-            for(String stateName : mapOfState.keySet()){
-            	listOfDistrict.addAll(mapOfState.get(stateName));
-               	for(String districtName : listOfDistrict ){
-                	if( districtName.length() >= districtSize){
+            for(String stateName : countryMap.get(countryName).keySet()){
+               	for(String districtName : countryMap.get(countryName).get(stateName) ){
+                    if( districtName.length() >= districtSize){
                         System.debug(districtName);
                     }
              	}  	  
