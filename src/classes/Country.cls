@@ -164,17 +164,15 @@ public with sharing class Country {
             if(countryName.startsWith(combinationLetter)){
                 mapOfState = countryMap.get(countryName);
                 for(String stateName : mapOfState.keySet()){
-                    if(stateName.startswith(combinationLetter)){
-                        lisyOfDistrict = mapOfState.get(stateName);
-                        for(String districtName : lisyOfDistrict ){
-                            if( districtName.length() >= districtSize ){
-                                listGreaterDistrictFormInteger.add(districtName);
-                            }
-                        }
-                    }
-                }    
+                    listOfDistrict.addAll(mapOfState.get(stateName));
+                         for(String districtName : listOfDistrict ){
+                               if( districtName.length() >= districtSize){
+                                    listGreaterDistrictFormInteger.add(districtName);
+                               }
+                         }
+            	}   
             }
-        }
+        }    
         System.debug(listGreaterDistrictFormInteger);
     }
 }
