@@ -137,37 +137,44 @@ public with sharing class Country {
     *     Revision log:   V_1.0 - Created  - Youe name - Date
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
-    public static void getCountryWithLetter(String countryLetter,Integer letterSize){
+    public static void combinationCountryStateDistrict(String combinationLetter,Integer districtSize){
         
-        Map<String, List<String>> cMap = new Map<String, List<String>>();
+        Map<String,List<String>> mapOfState = new  Map<String,List<String>>();
+        List<String> lisyOfDistrict = new List<String>();
 		
         String countryStartLetter = '';
-        for(String str : countryMap.keySet()){
-            if(str.startsWith(countryLetter)){
-                cMap = countryMap.get(str);
-                System.debug('Country : '+str);
-            }
-        }
-        List<String> cityList = new List<String>();
-        for(String str : cMap.keyset()){
-            if(str.startsWith(countryLetter)){
-                System.debug('State : '+str);
-            }
-            cityList.addAll(cMap.get(str));
-            countryStartLetter = str;
-        }
-        for(String str : cityList){
-            if(str.startsWith(countryLetter)){
-                System.debug('District : '+str);
+        for(String countryName : countryMap.keySet()){
+            if(countryName.startsWith(combinationLetter)){
+                mapOfState = countryMap.get(countryName);
+                for(String stateName : mapOfState.keySet()){
+                    if(stateName.startswith(combinationLetter)){
+                        lisyOfDistrict = mapOfState.get(stateName);
+                        for(String districtName : lisyOfDistrict ){
+                            if(districtName.startsWith(combinationLetter)){
+                                System.debug('Combination - Country : '+countryName+', State : '+stateName+ ', District : '+districtName);
+                            }
+                        }
+                    }
+                }    
             }
         }
         System.debug('District with Greater Interger : ');
-        List<String> greaterDistrictFormInteger = new List<String>();
-        for(String str : cityList){
-                if( str.length() >= letterSize ){
-                    greaterDistrictFormInteger.add(str);
-                }
+        List<String> listGreaterDistrictFormInteger = new List<String>();
+        for(String countryName : countryMap.keySet()){
+            if(countryName.startsWith(combinationLetter)){
+                mapOfState = countryMap.get(countryName);
+                for(String stateName : mapOfState.keySet()){
+                    if(stateName.startswith(combinationLetter)){
+                        lisyOfDistrict = mapOfState.get(stateName);
+                        for(String districtName : lisyOfDistrict ){
+                            if( districtName.length() >= districtSize ){
+                                listGreaterDistrictFormInteger.add(districtName);
+                            }
+                        }
+                    }
+                }    
+            }
         }
-        System.debug(greaterDistrictFormInteger);
+        System.debug(listGreaterDistrictFormInteger);
     }
 }
