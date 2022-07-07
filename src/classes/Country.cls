@@ -159,20 +159,17 @@ public with sharing class Country {
             }
         }
         System.debug('District with Greater Interger : ');
-        List<String> listGreaterDistrictFormInteger = new List<String>();
         for(String countryName : countryMap.keySet()){
-            if(countryName.startsWith(combinationLetter)){
-                mapOfState = countryMap.get(countryName);
+        	mapOfState = countryMap.get(countryName);
                 for(String stateName : mapOfState.keySet()){
-                    listOfDistrict.addAll(mapOfState.get(stateName));
-                         for(String districtName : listOfDistrict ){
-                               if( districtName.length() >= districtSize){
-                                    listGreaterDistrictFormInteger.add(districtName);
-                               }
-                         }
+                	listOfDistrict.addAll(mapOfState.get(stateName));
+                 	for(String districtName : listOfDistrict ){
+                        	if( districtName.length() >= districtSize){
+                          		System.debug(districtName);
+                               	}
+                        }
             	}   
-            }
+            
         }    
-        System.debug(listGreaterDistrictFormInteger);
     }
 }
