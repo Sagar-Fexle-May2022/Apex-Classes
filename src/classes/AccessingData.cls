@@ -10,6 +10,40 @@ public with sharing class AccessingData {
     List<Lead> leads = new List<Lead>();
     List<Account> accounts = new List<Account>();
 
+    /*
+    * Description   :    Method Convert Type
+    * Created By    :    Sagar Nirwal
+    * Purpose       :    This method used to retrieve, insert and update the data.
+    * Argument      :    None
+    * Return        :    Void
+    */
+    public static void insertUpdateDML() {
+        Account a = new Account(Name='Billing');
+        insert a;
+        System.debug('Account Name:: ' + a.Name);
+
+        Account b = [SELECT Name,Industry FROM Account WHERE Name='Billing' LIMIT 1];
+
+        // Write the old values the debug log before updating them.
+        System.debug('Account Name before update: ' + b.Name); 
+        System.debug('Account Industry before update: ' + b.Industry);
+
+        // Modify the two fields on the sObject.
+        b.Name = 'Bank Account';
+        b.Industry = 'Technology';
+        b.Phone = '9457407705';
+
+        // Persist the changes.
+        update b;
+
+        System.debug('Account Name after update: ' + b.Name); // Account Name after update: Bank Account
+        System.debug('Account Industry after update: ' + b.Industry);// Account Industry after update: Technology
+        
+        SObject s =new  Account();
+        s.put('Name', 'Billing');
+        System.debug('Account Name after insertion: ' + s);//Account Name after insertion: Account:{Name=Billing}
+
+    }
     /**   Description :   Method Convert Type
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   String
