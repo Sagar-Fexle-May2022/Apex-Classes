@@ -2,26 +2,24 @@
 * Description   - Country Map  
 * Created by    - Sagar Nirwal
 * Created Date  - 30/06/2022
-* Revision log  -  V_1.0 - Created  - Youe name - Date
-*                  V_1.1 - Modified - Youe Name - Date - Details what you modified
+* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 03/07/2022
+*                  V_1.1 - Modified - Sagar NIrwal - 03/07/2022 - Method(getCountryWithLetter) 
 **/
 public with sharing class Country {
 
     //Nested Map using Country with code to get the value countries,states,cites name 
-    Static Map<String,Map<String, Map<String, List<String>>>> countryWithCodeMap = new Map<String,Map<String, Map<String, List<String>>>>();
+    static Map<String,Map<String, Map<String, List<String>>>> countryWithCodeMap = new Map<String,Map<String, Map<String, List<String>>>>();
+    //Nested Map using Country to get the states and city name
+    static Map<String, Map<String, List<String>>> countryMap= new Map<String, Map<String, List<String>>>();
 
     /**   Description :   Method(using 2 Nested Map) this method print all country 
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   String
-    *     Return      :   None
+    *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Youe name - Date
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void mapCountry(String countrycode){
-        
-        //Nested Map using Country to get the states and city name
-        Map<String, Map<String, List<String>>> countryMap= new Map<String, Map<String, List<String>>>();
-        
         //we use nested dummy map to put all the countries into the countrywith code map
         Map<String, Map<String, List<String>>> countrydummyMap = new Map<String, Map<String, List<String>>>();
 
@@ -40,22 +38,22 @@ public with sharing class Country {
         stateMap1.put('Haryana',new List<String>());
         stateMap1.put('UttraKhand',new List<String>());
 
-        List<String> rajasthanCityList = new List<String>{'Jaipur','Udaipur','Jodhpur','Ajmer','Kota'};
+        List<String> rajasthanDistrictList = new List<String>{'Jaipur','Udaipur','Jodhpur','Ajmer','Kota'};
 
-        List<String> mpCityList = new List<String>{'Indore','Bhopal','Jabalpur','Gwalior','Katni'};
+        List<String> mpDistrictList = new List<String>{'Indore','Bhopal','Jabalpur','Gwalior','Katni'};
 
-        List<String> upCityList = new List<String>{'Shamli','Lucknow','Agra','Kanpur','Merrut'};
+        List<String> upDistrictList = new List<String>{'Shamli','Lucknow','Agra','Kanpur','Merrut'};
 
-        List<String> haryanaCityList = new List<String>{'Gurugram','Rohtak','Karnal','Sonipat','Hisar'};
+        List<String> haryanaDistrictList = new List<String>{'Gurugram','Rohtak','Karnal','Sonipat','Hisar'};
 
-        List<String> uttrakhandCityList = new List<String>{'Dehradun','Haridwar','Nainital','Rishikesh','Almora'};
+        List<String> uttrakhandDistrictList = new List<String>{'Dehradun','Haridwar','Nainital','Rishikesh','Almora'};
 
 
-        stateMap1.get('Rajasthan').addAll(rajasthanCityList);
-        stateMap1.get('MP').addAll(mpCityList);
-        stateMap1.get('Uttar Pradesh').addAll(upCityList);
-        stateMap1.get('Haryana').addAll(haryanaCityList);
-        stateMap1.get('UttraKhand').addAll(uttrakhandCityList);
+        stateMap1.get('Rajasthan').addAll(rajasthanDistrictList);
+        stateMap1.get('MP').addAll(mpDistrictList);
+        stateMap1.get('Uttar Pradesh').addAll(upDistrictList);
+        stateMap1.get('Haryana').addAll(haryanaDistrictList);
+        stateMap1.get('UttraKhand').addAll(uttrakhandDistrictList);
         countrydummyMap.get('India').putAll(stateMap1);
         
         countryMap.putAll(countrydummyMap);
@@ -73,22 +71,22 @@ public with sharing class Country {
         stateMap2.put('Alaska',new List<String>());
         stateMap2.put('Utah',new List<String>());
 
-        List<String> californiaCityList = new List<String>{'Los Angeles','San Diego','San Francisco','Oakland','Santa Monica'};
+        List<String> californiaDistrictList = new List<String>{'Los Angeles','San Diego','San Francisco','Oakland','Santa Monica'};
 
-        List<String> texasCityList = new List<String>{'Houstan','Dallas','Austin','San Antonio','McAllen'};
+        List<String> texasDistrictList = new List<String>{'Houstan','Dallas','Austin','San Antonio','McAllen'};
 
-        List<String> floridaCityList = new List<String>{'Miami','Orlando','Tampa','Destin','Naples'};
+        List<String> floridaDistrictList = new List<String>{'Miami','Orlando','Tampa','Destin','Naples'};
 
-        List<String> alaskaCityList = new List<String>{'Anchorage','Juneau','Fairbank','Sitka','North Pole'};
+        List<String> alaskaDistrictList = new List<String>{'Anchorage','Juneau','Fairbank','Sitka','North Pole'};
 
-        List<String> utahCityList = new List<String>{'Salt Lake City','West Valley City','Urovo','West Jordan','Sandy'};
+        List<String> utahDistrictList = new List<String>{'Salt Lake City','West Valley City','Urovo','West Jordan','Sandy'};
 
 
-        stateMap2.get('California').addAll(californiaCityList);
-        stateMap2.get('Texas').addAll(texasCityList);
-        stateMap2.get('Florida').addAll(floridaCityList);
-        stateMap2.get('Alaska').addAll(alaskaCityList);
-        stateMap2.get('Utah').addAll(utahCityList);
+        stateMap2.get('California').addAll(californiaDistrictList);
+        stateMap2.get('Texas').addAll(texasDistrictList);
+        stateMap2.get('Florida').addAll(floridaDistrictList);
+        stateMap2.get('Alaska').addAll(alaskaDistrictList);
+        stateMap2.get('Utah').addAll(utahDistrictList);
         countrydummyMap.get('USA').putAll(stateMap2);
         
         countryMap.putAll(countrydummyMap);
@@ -106,22 +104,22 @@ public with sharing class Country {
         stateMap3.put('Baden-Wurttemderg',new List<String>());
         stateMap3.put('Thuringia',new List<String>());
 
-        List<String> bavariaCityList = new List<String>{'Munich','Regensburg','Augsburg','Nuremberg','Erlangen'};
+        List<String> bavariaDistrictList = new List<String>{'Munich','Regensburg','Augsburg','Nuremberg','Erlangen'};
 
-        List<String> saxonyCityList = new List<String>{'Dresden','Leipzig','Hamburg','Bremen','Chemnitz'};
+        List<String> saxonyDistrictList = new List<String>{'Dresden','Leipzig','Hamburg','Bremen','Chemnitz'};
 
-        List<String> hessenCityList = new List<String>{'Wiesbaden','Darmstadt','Hanau','Kassel','Fulda'};
+        List<String> hessenDistrictList = new List<String>{'Wiesbaden','Darmstadt','Hanau','Kassel','Fulda'};
 
-        List<String> badenCityList = new List<String>{'Karlsruhe','Stuttgart','Mannheim','Heidelberg','Konstanz'};
+        List<String> badenDistrictList = new List<String>{'Karlsruhe','Stuttgart','Mannheim','Heidelberg','Konstanz'};
 
-        List<String> thuringiaCityList = new List<String>{'Erfurt','Weimar','Jena','Gera','Eisenach'};
+        List<String> thuringiaDistrictList = new List<String>{'Erfurt','Weimar','Jena','Gera','Eisenach'};
 
 
-        stateMap3.get('Bavaria').addAll(bavariaCityList);
-        stateMap3.get('Saxony').addAll(saxonyCityList);
-        stateMap3.get('Hessen').addAll(hessenCityList);
-        stateMap3.get('Baden-Wurttemderg').addAll(badenCityList);
-        stateMap3.get('Thuringia').addAll(thuringiaCityList);
+        stateMap3.get('Bavaria').addAll(bavariaDistrictList);
+        stateMap3.get('Saxony').addAll(saxonyDistrictList);
+        stateMap3.get('Hessen').addAll(hessenDistrictList);
+        stateMap3.get('Baden-Wurttemderg').addAll(badenDistrictList);
+        stateMap3.get('Thuringia').addAll(thuringiaDistrictList);
         countrydummyMap.get('Germany').putAll(stateMap3);
         
         countryMap.putAll(countrydummyMap);
@@ -130,5 +128,39 @@ public with sharing class Country {
         countrydummyMap.clear();         
         
         System.debug(countryWithCodeMap.get(countrycode));
+    }
+
+    /**   Description :   Method Gettting the Country with letter and Greater District Form Integer
+    *     Created By  :   Sagar Nirwal
+    *     Arguments   :   String,Integer
+    *     Return      :   void
+    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+    **/
+    public static void combinationCountryStateDistrict(String combinationLetter,Integer districtSize){
+        
+        for(String countryName : countryMap.keySet()){
+            if(countryName.startsWith(combinationLetter)){
+                for(String stateName : countryMap.get(countryName).keySet()){
+                    if(stateName.startswith(combinationLetter)){
+                        for(String districtName : countryMap.get(countryName).get(stateName) ){
+                            if(districtName.startsWith(combinationLetter)){
+                                System.debug('Combination - Country : '+countryName+', State : '+stateName+ ', District : '+districtName);
+                            }
+                        }
+                    }
+                }    
+            }
+        }
+        System.debug('District with Greater Interger : '); 
+        for(String countryName : countryMap.keySet()){
+            for(String stateName : countryMap.get(countryName).keySet()){
+               	for(String districtName : countryMap.get(countryName).get(stateName) ){
+                    if( districtName.length() >= districtSize){
+                        System.debug(districtName);
+                    }
+             	}  	  
+            }
+        }    
     }
 }
