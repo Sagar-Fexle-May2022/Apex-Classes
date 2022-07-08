@@ -138,29 +138,26 @@ public with sharing class Country {
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void combinationCountryStateDistrict(String combinationLetter,Integer districtSize){
-        
-        for(String countryName : countryMap.keySet()){
-            if(countryName.startsWith(combinationLetter)){
-                for(String stateName : countryMap.get(countryName).keySet()){
-                    if(stateName.startswith(combinationLetter)){
-                        for(String districtName : countryMap.get(countryName).get(stateName) ){
-                            if(districtName.startsWith(combinationLetter)){
-                                System.debug('Combination - Country : '+countryName+', State : '+stateName+ ', District : '+districtName);
-                            }
-                        }
-                    }
-                }    
-            }
-        }
-        System.debug('District with Greater Interger : '); 
+		List<String> listOfCombinations = new List<String>();
+        List<String> greaterDistrictFromInteger = new List<String>();
         for(String countryName : countryMap.keySet()){
             for(String stateName : countryMap.get(countryName).keySet()){
                	for(String districtName : countryMap.get(countryName).get(stateName) ){
+                	if(countryName.startsWith(combinationLetter) && stateName.startswith(combinationLetter)
+                       && districtName.startsWith(combinationLetter) ){
+                        listOfCombinations.add('Country : '+countryName+', State : '+stateName+ ', District : '+districtName);
+                    }
                     if( districtName.length() >= districtSize){
-                        System.debug(districtName);
+                        greaterDistrictFromInteger.add(districtName);
                     }
              	}  	  
             }
-        }    
+        }
+        if(!listOfCombinations.isEmpty()){
+            System.debug('Combination of Country, State and District:'+listOfCombinations);
+        }
+        if(!greaterDistrictFromInteger.isEmpty()){
+        	System.debug('District with Greater Interger : '+greaterDistrictFromInteger);
+        }
     }
 }
