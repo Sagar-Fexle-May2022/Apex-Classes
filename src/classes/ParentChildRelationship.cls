@@ -2,7 +2,7 @@
 * Description   - Parent Child Relationship
 * Created by    - Sagar Nirwal
 * Created Date  - 08/07/2022
-* Revision log  -  V_1.0 - Created  - Your Name - Date
+* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 08/07/2022
 *                  V_1.1 - Modified - Your Name - Date - Modified
 **/
 public with sharing class ParentChildRelationship {
@@ -10,7 +10,7 @@ public with sharing class ParentChildRelationship {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void insertParentChild1() {
@@ -26,24 +26,36 @@ public with sharing class ParentChildRelationship {
 
         Database.SaveResult resultOfOpportunityOne = Database.insert(oppOne);
 
+        try{
         //Relating records by using External id 
-        Opportunity oppTwo = new Opportunity(Name = 'Community', 
-                                        StageName = 'Prospecting', 
-                                        CloseDate = Date.today().addDays(7) );
+            Opportunity oppTwo = new Opportunity(Name = 'Community', 
+                                            StageName = 'Prospecting', 
+                                            CloseDate = Date.today().addDays(7) );
 
-        List<Account> listOfAccountTwo = [select id, MyExtID__c from Account WHERE 
-                                        MyExtID__c = 'SP1111134' ];
+            List<Account> listOfAccountTwo = [select id, MyExtID__c from Account WHERE 
+                                            MyExtID__c = 'SP1111134' ];
 
-        oppTwo.AccountId =  listOfAccountTwo[0].id;
+            oppTwo.AccountId = listOfAccountTwo[0].Id;
+            Database.SaveResult resultOfOpportunityTwo = Database.insert(oppTwo);
 
-
-        Database.SaveResult resultOfOpportunityTwo = Database.insert(oppTwo);
+            List<Opportunity> oppList1 = [SELECT Id,Name,AccountId From Opportunity Limit 5 ];
+            List<Opportunity> oppList2 = new List<Opportunity>();
+            for(Opportunity opp : oppList1 ){
+                opp.AccountId = listOfAccountTwo[0].Id;
+                oppList2.add(opp);
+            }
+            if(oppList2.size()>0){
+                update oppList2;
+            }
+        } catch(DMLException e){
+            System.debug(e.getMessage());
+        }
     }
     /**   Description :   insertParentChild2
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void insertParentChild2() {

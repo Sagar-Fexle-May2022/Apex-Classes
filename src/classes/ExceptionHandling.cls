@@ -2,41 +2,29 @@
 * Description   - ExceptionHandling
 * Created by    - Sagar Nirwal
 * Created Date  - 10/07/2022
-* Revision log  -  V_1.0 - Created  - Your Name - Date
+* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 10/07/2022
 *                  V_1.1 - Modified - Your Name - Date - Modified
 **/
 public virtual class ExceptionHandling {
-    /**   Description :   ExceptionHandling Constuctor
-    *     Created By  :   Sagar Nirwal
-    *     Arguments   :   None
-    *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
-    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
-    **/
-    public ExceptionHandling(){}
     /**
     * Description   - Snippet
     * Created by    - Sagar Nirwal
     * Created Date  - 10/07/2022
-    * Revision log  -  V_1.0 - Created  - Your Name - Date
+    * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 10/07/2022
     *                  V_1.1 - Modified - Your Name - Date - Modified
     **/
-    public virtual class Snippet extends ExceptionHandling{
-        /**   Description :   Snippet Constructor
+    public virtual class SnippetException extends Exception{
+        /**   Description :   Snippet Method(Standard Exception)
         *     Created By  :   Sagar Nirwal
         *     Arguments   :   None
         *     Return      :   void
-        *     Revision log:   V_1.0 - Created  - Youe name - Date
+        *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 10/07/2022
         *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
         **/
-        public Snippet(){
-            Account m1 = new Account(
-            Name='Coffeemaker A',
-            Description='Kitchenware');
+        public  void snippet(){
+            Account m1 = new Account(Name='Coffeemaker A',Description='Kitchenware');
             insert m1;
-            Account m2 = new Account(
-                Name='Coffeemaker B',
-                Description='Kitchenware');
+            Account m2 = new Account(Name='Coffeemaker B',Description='Kitchenware');
             insert m2;
             
             Account m3 = new Account();
@@ -61,46 +49,75 @@ public virtual class ExceptionHandling {
     * Description   - Stream
     * Created by    - Sagar Nirwal
     * Created Date  - 10/07/2022
-    * Revision log  -  V_1.0 - Created  - Your Name - Date
+    * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 10/07/2022
     *                  V_1.1 - Modified - Your Name - Date - Modified
     **/
-    public virtual class Stream extends ExceptionHandling {
-        /**   Description :   Stream Constuctor
+    public virtual class StreamException extends Exception {
+        /**   Description :   Stream Method (Custom Exception)
         *     Created By  :   Sagar Nirwal
         *     Arguments   :   None
         *     Return      :   void
-        *     Revision log:   V_1.0 - Created  - Youe name - Date
+        *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 10/07/2022
         *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
         **/
-        public Stream(){
-            try {
-                Student__c m = [SELECT Name FROM Student__c LIMIT 1];
-                
-                Double inventory = m.X4th_Sem_Percentage__c;
-            } catch(DmlException e) {
-                System.debug('DmlException caught: ' + e.getMessage());    
-            } catch(SObjectException e) {
-                System.debug('SObjectException caught: ' + e.getMessage());    
-            } catch(Exception e) {
-                System.debug('Exception caught: ' + e.getMessage());    
-            }
-            try {
-                List<Integer> listofInteger = new List<Integer>();
-                listofInteger.add(15);
-                
-                Integer i1 = listofInteger[0]; 
-                Integer i2 = listofInteger[1]; 
-            } catch(ListException le) {
-                System.debug('The following exception has occurred: ' + le.getMessage());
-            }
+        public void stream(){
             try {
                 Integer i=0;
-                if (i < 5){ 
-                    System.debug('This is Good');
-                }
-            } catch (Exception e) {  
+                // Your code here
+                if (i < 5) throw new StreamException('This is bad');
+            } catch (SnippetException e) {  
+                // This catches the OtherException
                 System.debug(e.getMessage());
-            } 
+            }
+
+            //Rethrowing Exceptions and Inner Exceptions
+            try { 
+                
+                throw new SnippetException('First exception'); 
+            } catch (SnippetException e) { 
+               
+                throw new StreamException('Thrown with inner exception', e);
+            }
+        }
+    }
+    /**
+    * Description   - Stream
+    * Created by    - Sagar Nirwal
+    * Created Date  - 11/07/2022
+    * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 11/07/2022
+    *                  V_1.1 - Modified - Your Name - Date - Modified
+    **/
+    public class StreamUtility {
+        /**   Description :   Main Processing 
+        *     Created By  :   Sagar Nirwal
+        *     Arguments   :   None
+        *     Return      :   void
+        *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 11/07/2022
+        *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+        **/
+        public void mainProcessing() {
+            try {
+                stream();
+            } catch(StreamException me) {
+                System.debug('Message: ' + me.getMessage());    
+                System.debug('Cause: ' + me.getCause());    
+                System.debug('Line number: ' + me.getLineNumber());    
+                System.debug('Stack trace: ' + me.getStackTraceString());    
+            }
+        }
+        /**   Description :   Stream Method
+        *     Created By  :   Sagar Nirwal
+        *     Arguments   :   None
+        *     Return      :   void
+        *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 11/07/2022
+        *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+        **/
+        public  void stream() {
+            try {
+                System.debug('Computer Science');
+            } catch(DmlException e) {
+                throw new StreamException('That Stram could not be inserted.', e);
+            }
         }
     }
 }

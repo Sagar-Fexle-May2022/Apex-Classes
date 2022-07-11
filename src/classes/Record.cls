@@ -2,7 +2,7 @@
 * Description   - Record
 * Created by    - Sagar Nirwal
 * Created Date  - 09/07/2022
-* Revision log  -  V_1.0 - Created  - Your Name - Date
+* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 09/07/2022
 *                  V_1.1 - Modified - Your Name - Date - Modified
 **/
 public with sharing class Record {
@@ -10,7 +10,7 @@ public with sharing class Record {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 09/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void recordDML150() {
@@ -24,6 +24,17 @@ public with sharing class Record {
         if(listofContact2.size()>0){
             update listofContact2;
         }
+        
+        // Parent Child DML
+        List<Account> listOfAccount1  = [Select Name, (Select Name from Contacts) from Account LIMIT 1];
+        List<Account> listofAccount2  = new List<Account>();  
+        for(Account act : listOfAccount1 ){
+            listofAccount2.add(act);
+        } 
+        if(listofAccount2.size()>0){
+            update listofContact2;   
+        }
+        
         //ADDING AND RETRIEVING THE DATA
         Account accOne = [SELECT Name,Industry FROM Account WHERE Name = 'Coffeemaker B' LIMIT 1];
         System.debug('Name => ' + accOne.Name); 
@@ -68,7 +79,7 @@ public with sharing class Record {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 09/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void recordToDatabase(){
@@ -127,7 +138,7 @@ public with sharing class Record {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 09/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void collectionmethod(){
