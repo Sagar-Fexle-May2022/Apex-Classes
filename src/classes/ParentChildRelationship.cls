@@ -2,7 +2,7 @@
 * Description   - Parent Child Relationship
 * Created by    - Sagar Nirwal
 * Created Date  - 08/07/2022
-* Revision log  -  V_1.0 - Created  - Your Name - Date
+* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 08/07/2022
 *                  V_1.1 - Modified - Your Name - Date - Modified
 **/
 public with sharing class ParentChildRelationship {
@@ -10,7 +10,7 @@ public with sharing class ParentChildRelationship {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void insertParentChild1() {
@@ -43,7 +43,7 @@ public with sharing class ParentChildRelationship {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   None
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Youe name - Date
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
     *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
     **/
     public static void insertParentChild2() {
