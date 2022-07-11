@@ -24,6 +24,17 @@ public with sharing class Record {
         if(listofContact2.size()>0){
             update listofContact2;
         }
+        
+        // Parent Child DML
+        List<Account> listOfAccount1  = [Select Name, (Select Name from Contacts) from Account LIMIT 1];
+        List<Account> listofAccount2  = new List<Account>();  
+        for(Account act : listOfAccount1 ){
+            listofAccount2.add(act);
+        } 
+        if(listofAccount2.size()>0){
+            update listofContact2;   
+        }
+        
         //ADDING AND RETRIEVING THE DATA
         Account accOne = [SELECT Name,Industry FROM Account WHERE Name = 'Coffeemaker B' LIMIT 1];
         System.debug('Name => ' + accOne.Name); 
