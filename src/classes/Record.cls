@@ -3,7 +3,7 @@
 * Created by    - Sagar Nirwal
 * Created Date  - 09/07/2022
 * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 09/07/2022
-*                  V_1.1 - Modified - Your Name - Date - Modified
+*                  V_1.1 - Modified - Sagar Nirwal - 09/07/2022 - Method(recordDML150)
 **/
 public with sharing class Record {
     /**   Description :   recordDML150
@@ -11,7 +11,7 @@ public with sharing class Record {
     *     Arguments   :   None
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 09/07/2022
-    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+    *                     V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Parent Child record in Single DML
     **/
     public static void recordDML150() {
         List<Contact> listofContact1 = [Select id, Name, Department, Description from Contact];
@@ -78,7 +78,7 @@ public with sharing class Record {
     *     Arguments   :   None
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 09/07/2022
-    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+    *                     V_1.1 - Modified - Sagar Nirwal - 09/07/2022 - Details what you modified 
     **/
     public static void recordToDatabase(){
         List<Account> accList = new List<Account>();
@@ -137,7 +137,7 @@ public with sharing class Record {
     *     Arguments   :   None
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 09/07/2022
-    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+    *                     V_1.1 - Modified - Sagar Nirwal - 09/07/2022 - Details what you modified 
     **/
     public static void collectionmethod(){
         //List
