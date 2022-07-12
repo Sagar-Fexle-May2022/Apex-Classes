@@ -38,6 +38,9 @@
 	<members>Order</members>
 	<members>Student</members>
 	<members>AccessingData</members>
+	<members>ExceptionHandling</members>
+	<members>ParentChildRelationship</members>
+	<members>Record</members>
         <name>ApexClass</name>
     </types>
 	<types>
@@ -49,6 +52,7 @@
         <members>Hello_World__c.First_Hello_World__c</members>
         <members>Hello_World__c.Second_Hello_World__c</members>
         <members>Hello_World__c.Third_Hell_World__c</members>
+	<members>Account.MyExtID__c</members>
         <name>CustomField</name>
     </types>
     <types>
