@@ -65,7 +65,7 @@ public with sharing class ParentChildRelationship {
     *     Arguments   :   None
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 08/07/2022 - Details what you modified 
+    *                     V_1.1 - Modified - Sagar Nirwal - 08/07/2022 - Insert Parent and child record in single DML
     **/
     public static void insertParentChild2() {
 
@@ -83,5 +83,20 @@ public with sharing class ParentChildRelationship {
 
             System.debug('Industry:' + con.Account.Industry);
         }                                   
+        ////insert Parent and child record in single DML
+        Opportunity opp = new Opportunity(Name='Section', StageName='Prospecting',
+                                                    CloseDate=Date.today().addDays(1));
+        Account acc = new Account(
+            Name='Hallie',
+            MyExtID__c='SAP111111');      
+        
+        // Create the account and the opportunity.
+        Database.SaveResult[] results = Database.insert(new SObject[] {acc, opp }); 
+        for (Integer i = 0; i < results.size(); i++) {
+            if (results[i].isSuccess()) {
+            System.debug('Successfully created ID: '
+                  + results[i].getId());
+            }
+        } 
     }
 }
