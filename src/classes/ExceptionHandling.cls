@@ -3,7 +3,7 @@
 * Created by    - Sagar Nirwal
 * Created Date  - 10/07/2022
 * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 10/07/2022
-*                  V_1.1 - Modified - Your Name - Date - Modified
+*                  V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Add One Class
 **/
 public virtual class ExceptionHandling {
     /**
@@ -50,7 +50,7 @@ public virtual class ExceptionHandling {
     * Created by    - Sagar Nirwal
     * Created Date  - 10/07/2022
     * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 10/07/2022
-    *                  V_1.1 - Modified - Your Name - Date - Modified
+    *                  V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Method Changes to Custom Exception
     **/
     public virtual class StreamException extends Exception {
         /**   Description :   Stream Method (Custom Exception)
@@ -58,7 +58,7 @@ public virtual class ExceptionHandling {
         *     Arguments   :   None
         *     Return      :   void
         *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 10/07/2022
-        *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+        *                     V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Create a Custom Exception
         **/
         public void stream(){
             try {
