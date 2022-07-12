@@ -3,7 +3,7 @@
 * Created by    - Sagar Nirwal
 * Created Date  - 08/07/2022
 * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 08/07/2022
-*                  V_1.1 - Modified - Your Name - Date - Modified
+*                  V_1.1 - Modified - Sagar Nirwal - 08/07/2022 - Modified
 **/
 public with sharing class ParentChildRelationship {
     /**   Description :   insertParentChild1
@@ -11,7 +11,7 @@ public with sharing class ParentChildRelationship {
     *     Arguments   :   None
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
-    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+    *                     V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Relating records by using External id 
     **/
     public static void insertParentChild1() {
         Opportunity oppOne = new Opportunity(Name = 'Fexle Services', 
@@ -56,7 +56,7 @@ public with sharing class ParentChildRelationship {
     *     Arguments   :   None
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 08/07/2022
-    *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+    *                     V_1.1 - Modified - Sagar Nirwal - 08/07/2022 - Details what you modified 
     **/
     public static void insertParentChild2() {
 
