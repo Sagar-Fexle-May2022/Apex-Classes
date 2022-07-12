@@ -50,6 +50,15 @@ public with sharing class ParentChildRelationship {
         } catch(DMLException e){
             System.debug(e.getMessage());
         }
+        Opportunity newOpportunity = new Opportunity(Name='Transaction', StageName='Prospecting',
+                                                    CloseDate=Date.today().addDays(1));
+        
+        Account accountReference = new Account( MyExtID__c='SAP111136');    
+             
+        
+        newOpportunity.Account = accountReference;
+        
+        Database.SaveResult results = Database.insert(newOpportunity);
     }
     /**   Description :   insertParentChild2
     *     Created By  :   Sagar Nirwal
