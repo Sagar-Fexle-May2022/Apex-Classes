@@ -25,16 +25,6 @@ public with sharing class Record {
             update listofContact2;
         }
         
-        // Parent Child DML
-        List<Account> listOfAccount1  = [Select Name, (Select Name from Contacts) from Account LIMIT 1];
-        List<Account> listofAccount2  = new List<Account>();  
-        for(Account act : listOfAccount1 ){
-            listofAccount2.add(act);
-        } 
-        if(listofAccount2.size()>0){
-            update listofContact2;   
-        }
-        
         //ADDING AND RETRIEVING THE DATA
         Account accOne = [SELECT Name,Industry FROM Account WHERE Name = 'Coffeemaker B' LIMIT 1];
         System.debug('Name => ' + accOne.Name); 
@@ -46,16 +36,24 @@ public with sharing class Record {
         update accOne;
 
         // INSERTING AND UPDATING RECORDS -->>
+        //Parent Child record in Single DML 
         try{
             Account accTwo = new Account(Name='Bank Account');
             insert accTwo;
             ID accID = accTwo.ID;
-            Contact con = new Contact(
-            FirstName='David',
-            LastName='Mallan',
-            Phone='+1413459867',
-            AccountId=accID);
+            Contact con = new Contact(FirstName='David',LastName='Mallan',
+                                    Phone='+1413459867',AccountId=accID);
             insert con;
+            List<Account> listOfAccount1  = [Select Name, (Select Name from Contacts) 
+                                            from Account WhERE Name = 'Bank Account'LIMIT 1];
+            List<Account> listofAccount2  = new List<Account>();  
+            for(Account act : listOfAccount1 ){
+                System.debug('Name:'+ act.Name );
+                listofAccount2.add(act);
+            } 
+            if(listofAccount2.size()>0){
+                update listofContact2;   
+            }
         } catch(DmlException e) {
             System.debug('An unexpected error has occurred: ' + e.getMessage());
         }
