@@ -41,7 +41,19 @@ public virtual class ExceptionHandling {
                 for(Integer i=0;i<numErrors;i++) {
                     System.debug('getDmlFieldNames=' + de.getDmlFieldNames(i));
                     System.debug('getDmlMessage=' + de.getDmlMessage(i));  
-                }
+                }       
+            }
+            try{
+                Account acc = new Account(Name='SFDC Account');
+                insert acc;
+                Contact con = new Contact(FirstName='David',LastName='Mallan',Phone='+12435467598',
+                                        AccountId=accID);
+    
+                insert con;
+                System.debug('Account '+acc);
+                System.debug('Contact ' +con);
+            } catch(DmlException e) {
+                System.debug('An unexpected error has occurred: ' + e.getMessage());
             }
         }
     }
