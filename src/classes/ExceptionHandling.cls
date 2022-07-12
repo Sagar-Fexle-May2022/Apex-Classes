@@ -11,7 +11,7 @@ public virtual class ExceptionHandling {
     * Created by    - Sagar Nirwal
     * Created Date  - 10/07/2022
     * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 10/07/2022
-    *                  V_1.1 - Modified - Your Name - Date - Modified
+    *                  V_1.1 - Modified - Sagar Nirwal - 10/07/2022 - Snippet Exception Class get the Standard Exception
     **/
     public virtual class SnippetException extends Exception{
         /**   Description :   Snippet Method(Standard Exception)
@@ -19,7 +19,7 @@ public virtual class ExceptionHandling {
         *     Arguments   :   None
         *     Return      :   void
         *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 10/07/2022
-        *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+        *                     V_1.1 - Modified - Sagar Nirwal - 10/07/2022 - Standard Exception
         **/
         public  void snippet(){
             Account m1 = new Account(Name='Coffeemaker A',Description='Kitchenware');
@@ -81,11 +81,11 @@ public virtual class ExceptionHandling {
         }
     }
     /**
-    * Description   - Stream
+    * Description   - Stream Utility
     * Created by    - Sagar Nirwal
     * Created Date  - 11/07/2022
     * Revision log  -  V_1.0 - Created  - Sagar Nirwal - 11/07/2022
-    *                  V_1.1 - Modified - Your Name - Date - Modified
+    *                  V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Add Inner Class in the Exception Handling
     **/
     public class StreamUtility {
         /**   Description :   Main Processing 
@@ -93,7 +93,7 @@ public virtual class ExceptionHandling {
         *     Arguments   :   None
         *     Return      :   void
         *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 11/07/2022
-        *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+        *                     V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Method to Custom exception 
         **/
         public void mainProcessing() {
             try {
@@ -110,7 +110,7 @@ public virtual class ExceptionHandling {
         *     Arguments   :   None
         *     Return      :   void
         *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 11/07/2022
-        *                     V_1.1 - Modified - Youe Name - Date - Details what you modified 
+        *                     V_1.1 - Modified - Sagar Nirwal - 11/07/2022 - Method to Check DML Exception 
         **/
         public  void stream() {
             try {
