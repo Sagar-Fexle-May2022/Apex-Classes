@@ -15,9 +15,8 @@ public with sharing class DynamicMapOfCountry {
     Static Map<String, Map<String, List<String>>> countryMap =  new  Map<String, Map<String, List<String>>>();  
     Static Map<String ,List<String>> stateMap = new Map<String ,List<String>>();
     
-    String startLetter; 
-    Integer districtSize;
-
+    Static Decimal totalState;// Variable for Storing Total State for Wrapper Class
+    Static Decimal totalDistrict;// Variable for Storing Total District for Wrapper Class
 
     /**   Description :   Constructor using Nested Map print all country 
     *     Created By  :   Sagar Nirwal
@@ -27,7 +26,7 @@ public with sharing class DynamicMapOfCountry {
     *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - In Map Reduce the no of SOQL Qurey
                                                                         and Implement in a Single Qurey 
     **/
-    public DynamicMapOfCountry(String countryCode,String letter,Integer size) {
+    public DynamicMapOfCountry(String countryCode,String startLetter,Integer districtSize) {
         
         //this qurey working Parent(Country) to child(State) and child(District) to Parent(State) 
         List<State__c>  listofState = [SELECT Id,country__r.Country_Code__c,country__r.Name,Name,
@@ -49,20 +48,7 @@ public with sharing class DynamicMapOfCountry {
         
         System.debug(codeMap.get(countryCode));
         
-        combinationOfCountryStateDistrict(this.startLetter = letter ,this.districtSize = size);
-        countryData();
-    }
-
-    /**   Description :   Method Using to find the Conbination or Size 
-    *     Created By  :   Sagar Nirwal
-    *     Arguments   :   String,Integer
-    *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Details what you modified 
-    **/
-    public static void combinationOfCountryStateDistrict(String startLetter,Integer districtSize){
-		List<String> listOfCombinations = new List<String>();
-        List<String> greaterDistrictFromInteger = new List<String>();
+        List<String> listOfCombinations = new List<String>();
         for(String countryName : countryMap.keySet()){
             for(String stateName : countryMap.get(countryName).keySet()){
                	for(String districtName : countryMap.get(countryName).get(stateName) ){
@@ -70,47 +56,27 @@ public with sharing class DynamicMapOfCountry {
                        && districtName.startsWith(startLetter) ){
                         listOfCombinations.add(countryName+','+stateName+ ','+districtName);
                     }
-                    if( districtName.length() >= districtSize){
-                        greaterDistrictFromInteger.add(districtName);
-                    }
              	}  	  
             }
         }
         if(!listOfCombinations.isEmpty()){
             System.debug('Combination of Country, State and District:'+listOfCombinations);
         }
-        if(!greaterDistrictFromInteger.isEmpty()){
-        	System.debug('District with Greater Interger : '+greaterDistrictFromInteger);
-        }
+        aggregateQurey();
+        countryData();
     }
-    //Wrapper Classes
-    public class Country {
-        public String countryName{get; set;}
-        public String countryCode{get; set;}
-        public Decimal totalStates{get; set;}
-        public Decimal totalDistricts{get; set;}
-        public List<State> states{get; set;}
-    }
-    public class State {
-        public String stateName{get; set;}
-        public List<District> districts{get; set;}
-    }
-    public class District {
-        public String districtName{get; set;}
-    }
-    /**   Description :   Method Update the Field of Country by using Aggregate Qurey and JSON Data
+
+    /**   Description :   Method Update the Field of Country by using Aggregate Qurey  
     *     Created By  :   Sagar Nirwal
-    *     Arguments   :   none
+    *     Arguments   :   String,Integer
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Aggregate Qurey 
+    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Aggregate Qurey
     **/
-    public static void countryData(){
-        Decimal totalState;// Variable for Storing Total State for Wrapper Class
-        Decimal totalDistrict;// Variable for Storing Total District for Wrapper Class
+    public static void aggregateQurey(){
 
         //Aggregate Qurey------> Total Sate AND District Of Country 
-        List<Country__c> listOfCountryField = new List<Country__c>();
+        Map<Id, Country__c> mapOfCountryField = new Map<Id, Country__c>();
         for (AggregateResult totalStateAndDistrictOfCountry : [SELECT Country__c coun, COUNT(Name), SUM(Total_District__c)
                                                                FROM State__c 
                                                                GROUP BY Country__c]){                                    
@@ -121,14 +87,14 @@ public with sharing class DynamicMapOfCountry {
             country.Total_District__c = (Decimal)totalStateAndDistrictOfCountry.get('expr1');
             totalState = (Decimal)totalStateAndDistrictOfCountry.get('expr0'); 
             totalDistrict = (Decimal)totalStateAndDistrictOfCountry.get('expr1');
-            listOfCountryField.add(country);
-        } 
-        if(!listOfCountryField.isEmpty()){
-            update listOfCountryField;
+            mapOfCountryField.put(country.Id,country);
+        }
+        if(!mapOfCountryField.isEmpty()){
+            update mapOfCountryField.values();   
         }
 
         //Aggregate Qurey------> Total District Of State
-        List<State__c> listOfTotalDistricts = new  List<State__c>();                                           
+        Map<Id, State__c> mapOfTotalDistricts = new Map<Id, State__c>();                                       
         for(AggregateResult aggregateTotalDistrict : [SELECT State__c state, COUNT(Name) 
                                                       FROM District__c 
                                                       GROUP BY State__c]){
@@ -136,13 +102,20 @@ public with sharing class DynamicMapOfCountry {
             state.Id = (Id)aggregatetotalDistrict.get('state');
             //Type Casting Use because Field is Number type
             state.Total_District__c = (Decimal)aggregatetotalDistrict.get('expr0');
-            listOfTotalDistricts.add(state);
+            mapOfTotalDistricts.put(state.Id,state);
         }
-        if(!listOfTotalDistricts.isEmpty()){
-            update listOfTotalDistricts;
+        if(!mapOfTotalDistricts.isEmpty()){
+            update mapOfTotalDistricts.values();
         }
-        
-        
+    }
+    /**   Description :   JSON Data
+    *     Created By  :   Sagar Nirwal
+    *     Arguments   :   none
+    *     Return      :   void
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
+    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Details what you modified  
+    **/    
+    public static void countryData(){    
         // JSON Data
         String nameOfCountry;
         for(String name : countryMap.keySet()){
@@ -163,7 +136,6 @@ public with sharing class DynamicMapOfCountry {
             State stateWrapper = new State();
             stateWrapper.stateName = sta;
             stateWrapper.districts = new List<District>();
-       
             for(String district : countryMap.get(nameOfCountry).get(sta)) {
                 District districtWrapper = new District();
                 districtWrapper.districtName = district;
@@ -180,5 +152,20 @@ public with sharing class DynamicMapOfCountry {
         listOfCountry[0].Country_JASON__c = JSONData ;
 
         update listOfCountry;
+    }
+    //Wrapper Classes
+    public class Country {
+        public String countryName{get; set;}
+        public String countryCode{get; set;}
+        public Decimal totalStates{get; set;}
+        public Decimal totalDistricts{get; set;}
+        public List<State> states{get; set;}
+    }
+    public class State {
+        public String stateName{get; set;}
+        public List<District> districts{get; set;}
+    }
+    public class District {
+        public String districtName{get; set;}
     }
 }
