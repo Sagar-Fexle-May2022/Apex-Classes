@@ -26,7 +26,7 @@ public with sharing class DynamicMapOfCountry {
     *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - In Map Reduce the no of SOQL Qurey
                                                                         and Implement in a Single Qurey 
     **/
-    public DynamicMapOfCountry(String countryCode,String startLetter,Integer districtSize) {
+    public DynamicMapOfCountry(String countryCode,String startLetter,String name) {
         
         //this qurey working Parent(Country) to child(State) and child(District) to Parent(State) 
         List<State__c>  listofState = [SELECT Id,country__r.Country_Code__c,country__r.Name,Name,
@@ -63,97 +63,93 @@ public with sharing class DynamicMapOfCountry {
             System.debug('Combination of Country, State and District:'+listOfCombinations);
         }
         aggregateQurey();
-        countryData();
+        countryData(name);
     }
 
     /**   Description :   Method Update the Field of Country by using Aggregate Qurey  
     *     Created By  :   Sagar Nirwal
-    *     Arguments   :   String,Integer
+    *     Arguments   :   none
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Aggregate Qurey
     **/
     public static void aggregateQurey(){
 
-        //Aggregate Qurey------> Total Sate AND District Of Country 
-        Map<Id, Country__c> mapOfCountryField = new Map<Id, Country__c>();
-        for (AggregateResult totalStateAndDistrictOfCountry : [SELECT Country__c coun, COUNT(Name), SUM(Total_District__c)
-                                                               FROM State__c 
-                                                               GROUP BY Country__c]){                                    
-            Country__c country = new Country__c();
-            country.Id = (Id)totalStateAndDistrictOfCountry.get('coun');
-            //Type Casting Use because Field is Number type
-            country.Total_States__c = (Decimal)totalStateAndDistrictOfCountry.get('expr0');
-            country.Total_District__c = (Decimal)totalStateAndDistrictOfCountry.get('expr1');
-            totalState = (Decimal)totalStateAndDistrictOfCountry.get('expr0'); 
-            totalDistrict = (Decimal)totalStateAndDistrictOfCountry.get('expr1');
-            mapOfCountryField.put(country.Id,country);
-        }
-        if(!mapOfCountryField.isEmpty()){
-            update mapOfCountryField.values();   
-        }
-
-        //Aggregate Qurey------> Total District Of State
+        //Aggregate Qurey------> Total District Of State   
         Map<Id, State__c> mapOfTotalDistricts = new Map<Id, State__c>();                                       
-        for(AggregateResult aggregateTotalDistrict : [SELECT State__c state, COUNT(Name) 
+        for(AggregateResult aggre : [SELECT  State__c state, COUNT(Name) 
                                                       FROM District__c 
                                                       GROUP BY State__c]){
-            State__c state =  new State__c();
-            state.Id = (Id)aggregatetotalDistrict.get('state');
-            //Type Casting Use because Field is Number type
-            state.Total_District__c = (Decimal)aggregatetotalDistrict.get('expr0');
-            mapOfTotalDistricts.put(state.Id,state);
+            mapOfTotalDistricts.put(String.valueOf(aggre.get('state')),new State__c(Id = (Id)aggre.get('state'),
+                Total_District__c = (Decimal)aggre.get('expr0')));
         }
         if(!mapOfTotalDistricts.isEmpty()){
             update mapOfTotalDistricts.values();
         }
+        //Aggregate Qurey------> Total Sate AND District Of Country
+        Map<Id, Country__c> mapOfCountryField = new Map<Id, Country__c>();
+        for (AggregateResult agg : [SELECT Country__c coun, COUNT(Name), SUM(Total_District__c)
+                                                               FROM State__c 
+                                                               GROUP BY Country__c]){   
+            
+            totalState = (Decimal)agg.get('expr0'); 
+            totalDistrict = (Decimal)agg.get('expr1');
+            mapOfCountryField.put(String.valueOf(agg.get('coun')),new Country__c(Id = (Id)agg.get('coun'),
+                Total_States__c = (Decimal)agg.get('expr0'),
+                Total_District__c = (Decimal)agg.get('expr1')));
+        }
+        if(!mapOfCountryField.isEmpty()){
+            update mapOfCountryField.values();   
+        }
     }
     /**   Description :   JSON Data
     *     Created By  :   Sagar Nirwal
-    *     Arguments   :   none
+    *     Arguments   :   String
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Details what you modified  
+    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Passing the argument 
     **/    
-    public static void countryData(){    
+    public static void countryData(String conutryName){    
         // JSON Data
-        String nameOfCountry;
-        for(String name : countryMap.keySet()){
-            nameOfCountry = name;
-        }
-        String codeOfCountry;
-        for(String code : codeMap.keySet()){
-            codeOfCountry = code;
-        }
         
-        Country countryWrapper = new Country();
-        countryWrapper.countryName = nameOfCountry;
-        countryWrapper.countryCode = codeOfCountry;
-        countryWrapper.totalStates = totalState;
-        countryWrapper.totalDistricts =  totalDistrict;                                        
-        countryWrapper.states = new List<State>();
-        for(String sta : countryMap.get(nameOfCountry).keySet()) {
-            State stateWrapper = new State();
-            stateWrapper.stateName = sta;
-            stateWrapper.districts = new List<District>();
-            for(String district : countryMap.get(nameOfCountry).get(sta)) {
-                District districtWrapper = new District();
-                districtWrapper.districtName = district;
-                stateWrapper.districts.add(districtWrapper);
+        CountryData counData = new CountryData();
+        counData.country = new List<Country>();
+        for(String code : codeMap.keySet()){
+            Country countryWrapper = new Country();
+            countryWrapper.countryName = conutryName;
+            countryWrapper.countryCode = code;
+            countryWrapper.totalStates = totalState;
+            countryWrapper.totalDistricts =  totalDistrict;                                        
+            countryWrapper.states = new List<State>();
+            for(String sta : countryMap.get(conutryName).keySet()) {
+                State stateWrapper = new State();
+                stateWrapper.stateName = sta;
+                stateWrapper.districts = new List<District>();
+                
+                for(String district : countryMap.get(conutryName).get(sta)) {
+                    District districtWrapper = new District();
+                    districtWrapper.districtName = district;
+                    stateWrapper.districts.add(districtWrapper);
+                }
+                countryWrapper.states.add(stateWrapper);
             }
-            countryWrapper.states.add(stateWrapper);
+            counData.country.add(countryWrapper);
         }
-
-        JSONData = System.JSON.serialize(countryWrapper);
+        JSONData = System.JSON.serialize(counData);
         System.debug('===>>>'+JSONData);
-
+        
         List<Country__c> listOfCountry = [SELECT Id,Name,Country_JASON__c 
                                           FROM Country__c Where Name IN :countryMap.keySet()];
         listOfCountry[0].Country_JASON__c = JSONData ;
-
+        
         update listOfCountry;
+        
     }
     //Wrapper Classes
+    
+    public class CountryData{
+        public List<Country> country{get; set;}
+    }
     public class Country {
         public String countryName{get; set;}
         public String countryCode{get; set;}
