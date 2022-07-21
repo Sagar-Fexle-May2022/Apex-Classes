@@ -93,17 +93,17 @@ public with sharing class DynamicMapOfCountry {
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - JSON Data 
     **/    
-    public static void countryData(String countryName){    
+   public static void countryData(String countryName){    
         // JSON Data
-        List<State__c> stateList = [SELECT Id,country__r.Country_Code__c,country__r.Name,country__r.Total_States__c,
+        List<State__c> stateList = [SELECT Id,country__r.Id,country__r.Country_Code__c,country__r.Name,country__r.Total_States__c,
                                                                 country__r.Total_District__c, Name
-                                                                FROM State__c];
+                                                                FROM State__c WHERE country__r.Name = :countryName];
         if(!stateList.isEmpty()){
             Country countryWrapper = new Country();
             countryWrapper.countryName = stateList[0].country__r.Name;
             countryWrapper.countryCode = stateList[0].country__r.Country_Code__c;
             countryWrapper.totalStates = stateList[0].country__r.Total_States__c;
-            countryWrapper.totalDistricts = stateList[0].country__r.Total_States__c;
+            countryWrapper.totalDistricts = stateList[0].country__r.Total_District__c;
             countryWrapper.states = new List<State>();
             for(State__c st : stateList){
                State stateWrapper = new State();
@@ -121,7 +121,10 @@ public with sharing class DynamicMapOfCountry {
             JSONData = JSON.serialize(countryWrapper);
             System.debug('===>>>'+JSONData);   
         }
-        stateList[0].country__r.Country_JASON__c = JSONData;
+        Country__c  cou = new Country__c();
+        cou.Id =  stateList[0].country__r.Id;
+        cou.Country_JASON__c = JSONData;
+        update cou;
     }
     //Wrapper Classes
     
