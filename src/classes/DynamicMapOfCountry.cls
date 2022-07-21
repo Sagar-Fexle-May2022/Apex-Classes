@@ -2,12 +2,12 @@
 * Description   - Dynamic Map of Country   
 * Created by    - Sagar Nirwal
 * Created Date  - 14/06/2022
-* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-*                  V_1.1 - Modified - Sagar NIrwal - 14/06/2022 -  Details what you modified
+* Revision log  -  V_1.0 - Created  - Sagar Nirwal - 14/07/2022
+*                  V_1.1 - Modified - Sagar NIrwal - 14/07/2022 -  Details what you modified
 **/
 public with sharing class DynamicMapOfCountry {
     Static String JSONData;
-    
+
     //Nested Map of Country using to get the states and District name
     Static Map<String, Map<String, List<String>>> countryMap =  new  Map<String, Map<String, List<String>>>();  
     Static Map<String ,List<String>> stateMap = new Map<String ,List<String>>();
@@ -16,8 +16,8 @@ public with sharing class DynamicMapOfCountry {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   String,String,String
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - In Map Reduce the no of SOQL Qurey
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/07/2022
+    *                     V_1.1 - Modified - Sagar Nirwal - 14/07/2022 - In Map Reduce the no of SOQL Qurey
                                                                         and Implement in a Single Qurey 
     **/
     public DynamicMapOfCountry(String countryName,String startLetter) {
@@ -57,8 +57,8 @@ public with sharing class DynamicMapOfCountry {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   String,Integer
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - Aggregate Qurey 
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/07/2022
+    *                     V_1.1 - Modified - Sagar Nirwal - 14/07/2022 - Aggregate Qurey 
     **/
     public static void aggregateQurey(){
 
@@ -90,10 +90,10 @@ public with sharing class DynamicMapOfCountry {
     *     Created By  :   Sagar Nirwal
     *     Arguments   :   String
     *     Return      :   void
-    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/06/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 14/06/2022 - JSON Data 
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/07/2022
+    *                     V_1.1 - Modified - Sagar Nirwal - 14/07/2022 - JSON Data 
     **/    
-   public static void countryData(String countryName){    
+    public static void countryData(String countryName){    
         // JSON Data
         List<State__c> stateList = [SELECT Id,country__r.Id,country__r.Country_Code__c,country__r.Name,country__r.Total_States__c,
                                                                 country__r.Total_District__c, Name
@@ -121,11 +121,25 @@ public with sharing class DynamicMapOfCountry {
             JSONData = JSON.serialize(countryWrapper);
             System.debug('===>>>'+JSONData);   
         }
-        Country__c  cou = new Country__c();
-        cou.Id =  stateList[0].country__r.Id;
-        cou.Country_JASON__c = JSONData;
-        update cou;
+        if(!stateList.isEmpty()){
+            Country__c  cou = new Country__c();
+            cou.Id =  stateList[0].country__r.Id;
+            cou.Country_JASON__c = JSONData;
+            update cou;
+            String recordLink = URL.getSalesforceBaseUrl().getHost()+'/'+cou.Id;
+            System.debug(recordLink);
+        }
     }
+    /**   Description :   Pagerefernce method
+    *     Created By  :   Sagar Nirwal
+    *     Arguments   :   none
+    *     Return      :   pagerefernce 
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 21/07/2022
+    *                     V_1.1 - Modified - Sagar Nirwal - 21/07/2022 - Detail what you modified 
+    **/    
+    public pagereference redirectUser(){
+        return new pagereference('/');
+    }    
     //Wrapper Classes
     
     public class CountryData{
@@ -154,4 +168,5 @@ USER_DEBUG [122]|DEBUG|{"country":{"countryName":"USA","countryCode":"+1","total
 "states":[{"stateName":"California","districts":[{"districtName":"Los Angeles"},{"districtName":"San Diego"},
 {"districtName":"Oakland"},{"districtName":"San Francisco"}]},{"stateName":"Utah","districts":[{"districtName":"Salt Lake City"},
 {"districtName":"West Jordan"},{"districtName":"West Valley City"},{"districtName":"Urovo"}]},{"stateName":"Florida",
-"districts":[{"districtName":"Naples"},{"districtName":"Orlando"},{"districtName":"Miami"},{"districtName":"Destin"}]}]}} */
+"districts":[{"districtName":"Naples"},{"districtName":"Orlando"},{"districtName":"Miami"},{"districtName":"Destin"}]}]}} 
+USER_DEBUG [130]|DEBUG|fexleservicesprivatelimi-1d-dev-ed.my.salesforce.com/a0F5i000000jhFaEAI */
