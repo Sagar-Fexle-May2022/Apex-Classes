@@ -143,3 +143,12 @@ public with sharing class DynamicMapOfCountry {
         public String districtName{get; set;}
     } 
 }
+/*OutPut ===>>>
+USER_DEBUG [47]|DEBUG|{USA={California=(Los Angeles, Oakland, San Diego, San Francisco), 
+    Florida=(Naples, Miami, Destin, Orlando), Utah=(Salt Lake City, West Jordan, Urovo, West Valley City)}}
+USER_DEBUG [50]|DEBUG|Combination of Country, State and District:(USA,Utah,Urovo)
+USER_DEBUG [122]|DEBUG|{"country":{"countryName":"USA","countryCode":"+1","totalStates":3,"totalDistricts":12.0,
+"states":[{"stateName":"California","districts":[{"districtName":"Los Angeles"},{"districtName":"San Diego"},
+{"districtName":"Oakland"},{"districtName":"San Francisco"}]},{"stateName":"Utah","districts":[{"districtName":"Salt Lake City"},
+{"districtName":"West Jordan"},{"districtName":"West Valley City"},{"districtName":"Urovo"}]},{"stateName":"Florida",
+"districts":[{"districtName":"Naples"},{"districtName":"Orlando"},{"districtName":"Miami"},{"districtName":"Destin"}]}]}} */
