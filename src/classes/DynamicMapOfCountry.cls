@@ -31,7 +31,6 @@ public with sharing class DynamicMapOfCountry {
         if(!listofState.isEmpty()){
             for(State__c state :listofState) {
                 if(countryMap.size() == 0){
-                    codeMap.put(state.country__r.Country_Code__c,new Map<String, Map<String, List<String>>>());
                     countryMap.put(state.country__r.Name,new Map<String, List<String>>());
                 }
                 stateMap.put(state.Name, new List<String>());
@@ -44,7 +43,6 @@ public with sharing class DynamicMapOfCountry {
                 }
             }
             countryMap.get(listofState[0].country__r.Name).putAll(stateMap);
-            codeMap.get(listofState[0].country__r.Country_Code__c).putAll(countryMap);
         }
         System.debug(countryMap);
 
