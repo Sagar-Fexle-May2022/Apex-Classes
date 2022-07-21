@@ -96,8 +96,8 @@ public with sharing class DynamicMapOfCountry {
     public static void countryData(String countryName){    
         // JSON Data
         List<State__c> stateList = [SELECT Id,country__r.Id,country__r.Country_Code__c,country__r.Name,country__r.Total_States__c,
-                                                                country__r.Total_District__c, Name
-                                                                FROM State__c WHERE country__r.Name = :countryName];
+                                    country__r.Total_District__c, Name
+                                    FROM State__c WHERE country__r.Name = :countryName];
         if(!stateList.isEmpty()){
             Country countryWrapper = new Country();
             countryWrapper.countryName = stateList[0].country__r.Name;
