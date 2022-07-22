@@ -167,9 +167,9 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
-        <fullName>Identify__c</fullName>
+        <fullName>State_s_Country__c</fullName>
         <externalId>false</externalId>
-        <formula>HYPERLINK(Country__c ,Country__r.Name, &quot;_self&quot;) +&quot;=&gt;&quot; + Name</formula>
+        <formula>Country__r.Name&amp;&quot;-&gt;&quot;&amp; Name</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Identify</label>
         <required>false</required>
