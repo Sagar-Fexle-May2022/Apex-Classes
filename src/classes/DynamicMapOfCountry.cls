@@ -37,8 +37,8 @@ public with sharing class DynamicMapOfCountry {
                     listOfCombinations.add(district.State__r.Country__r.Name+','+district.State__r.Name+ ','+district.Name);
                 }                  
                 if(stateMap != null){
-                stateMap.get(district.State__r.Name).add(district.Name);
-                countryMap.put(district.State__r.Country__r.Name, stateMap);
+                    stateMap.get(district.State__r.Name).add(district.Name);
+                    countryMap.put(district.State__r.Country__r.Name, stateMap);
                 }
             }  
         }
