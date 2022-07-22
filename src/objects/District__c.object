@@ -154,7 +154,7 @@
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
-        <fullName>Identify__c</fullName>
+        <fullName>Country_Name__c</fullName>
         <externalId>false</externalId>
         <formula>HYPERLINK(State__r.Country__c , State__r.Country__r.Name ,&quot;_self&quot;) + &quot;=&gt;&quot;+ HYPERLINK(State__c, State__r.Name, &quot;__self&quot;)  +&quot;=&gt;&quot;+Name</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
@@ -165,7 +165,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Pin_Code__c</fullName>
+        <fullName>District_Pin_Code__c</fullName>
         <externalId>false</externalId>
         <label>Pin Code</label>
         <length>10</length>
