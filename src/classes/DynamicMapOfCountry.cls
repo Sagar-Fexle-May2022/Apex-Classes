@@ -51,8 +51,6 @@ public with sharing class DynamicMapOfCountry {
         }
         aggregateQurey();
         countryData(countryName);
-        String recordLink = URL.getSalesforceBaseUrl().toExternalForm() + '/' + listofState[0].Country__r.Id;
-        System.debug(recordLink);
     }
 
     /**   Description :   Method Update the Field of Country by using Aggregate Qurey  
@@ -129,6 +127,8 @@ public with sharing class DynamicMapOfCountry {
             cou.Country_JASON__c = JSONData;
             update cou;
         }
+        String recordLink = URL.getSalesforceBaseUrl().toExternalForm() + '/' + listofState[0].Country__r.Id;
+        System.debug(recordLink);
     }
     //Wrapper Classes
     
