@@ -25,8 +25,7 @@ public with sharing class DynamicMapOfCountry {
         //this qurey working Parent(Country) to child(State) and child(District) to Parent(State) 
         List<State__c>  listofState = [SELECT Id,country__r.Id, country__r.Country_Code__c,country__r.Name,Name,
                                        (SELECT State__r.Country__r.Name, state__r.Name,Name FROM Districts__r ) 
-                                       FROM State__c 
-                                       WHERE country__r.Name = :countryName];
+                                       FROM State__c ];
         List<String> listOfCombinations = new List<String>();
         if(!listofState.isEmpty()){
             for(State__c state :listofState) {
