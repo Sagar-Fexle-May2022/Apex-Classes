@@ -1,123 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>ListOfStates</members>
-        <members>MapOfProduct</members>
-        <members>Seminar</members>
-        <members>SetOfProduct</members>
-        <members>DreamWorld</members>
-        <members>HelloWorld</members>
-        <members>Register</members>
-        <members>RegisterDebug</members>
-        <members>Teacher</members>
-        <members>TeacherDebug</members>
-        <members>DownPatternHolo</members>
-        <members>HelloWorldTestClass</members>
-        <members>LeftSidePattern</members>
-        <members>LeftTrianglePascal</members>
-        <members>MyHelloWorld</members>
-        <members>Pyramid</members>
-        <members>ReversedPyramid</members>
-        <members>ReversedPyramidUsingOneLoop</members>
-        <members>RelationshipsInRealWorld</members>
-        <members>RelationshipsInRealWorldDebug</members>
-	<members>Call</members>
-        <members>Constructor</members>
-        <members>ControlFlow</members>
-        <members>ControlFlowStatement</members>
-        <members>Expression</members>
-        <members>GetterandSetter</members>
-        <members>Overloading</members>
-        <members>Overriding</members>
-	<members>BankTransaction</members>
-	<members>ClassSuper</members>
-	<members>ClassThis</members>
-	<members>Country</members>
-	<members>InstanceOfClass</members>
-	<members>MemberCasting</members>
-	<members>Order</members>
-	<members>Student</members>
-	<members>AccessingData</members>
-	<members>ExceptionHandling</members>
-	<members>ParentChildRelationship</members>
-	<members>Record</members>
-        <name>ApexClass</name>
-    </types>
 	<types>
-        <members>HelloWorldTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-	<members>Dream_World__c.First_Dream__c</members>
-        <members>Hello_World__c.First_Hello_World__c</members>
-        <members>Hello_World__c.Second_Hello_World__c</members>
-        <members>Hello_World__c.Third_Hell_World__c</members>
-	<members>Account.MyExtID__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
-	<members>Dream_World__c</members>
-        <members>Book__c</members>
-        <members>Student__c</members>
-        <members>Account</members>
-        <members>College__c</members>
-        <members>Contact</members>
-        <members>Employee__c</members>
-        <members>Lead</members>
-        <members>Pan_Card__c</members>
-        <members>StudentSubjects__c</members>
-        <members>Student__c</members>
-        <members>Subject__c</members>
-        <members>Teacher__c</members>
-        <members>Year_Of_Class__c</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-	<members>Dream_World__c</members>
-        <members>Hello_World__c</members>
-        <members>Student__c</members>
-        <members>College__c</members>
-        <members>Employee__c</members>
-        <members>Pan_Card__c</members>
-        <members>StudentSubjects__c</members>
-        <members>Student__c</members>
-        <members>Subject__c</members>
-        <members>Teacher__c</members>
-        <members>Year_Of_Class__c</members>
-	<members>Book__c</members>
-        <members>Book__c</members>
-        <members>Student__c</members>
-        <members>College__c</members>
-        <members>Employee__c</members>
-        <members>Pan_Card__c</members>
-        <members>StudentSubjects__c</members>
-        <members>Student__c</members>
-        <members>Subject__c</members>
-        <members>Teacher__c</members>
-        <members>Year_Of_Class__c</members>
-        <name>CustomTab</name>
-    </types>
+		<members>DynamicMapOfCountry</members>
+		<name>ApexClass</name>
+	</types>
 	<types>
-        <members>Student__c-Registar Layout</members>
-        <members>Student__c-Teacher Layout</members>
-        <members>Account-Account Layout</members>
-        <members>College__c-College Layout</members>
-        <members>Contact-Contact Layout</members>
-        <members>Employee__c-Employee Layout</members>
-        <members>Lead-Lead Layout</members>
-        <members>Pan_Card__c-Pan Card Layout</members>
-        <members>StudentSubjects__c-StudentSubjects Layout</members>
-        <members>Student__c-Registar Layout</members>
-        <members>Student__c-Teacher Layout</members>
-        <members>Subject__c-Subject Layout</members>
-        <members>Teacher__c-Teacher Layout</members>
-        <members>Year_Of_Class__c-Year Of Class Layout</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>Student__c.Register_Layout</members>
-        <members>Student__c.Teacher_Layout</members>
-        <name>RecordType</name>
-    </types>
-    <version>53.0</version>
+		<members>Country__c.Country_Code__c</members>
+		<members>Country__c.Country_JASON__c</members>
+		<members>Country__c.Total_District__c</members>
+		<members>Country__c.Total_States__c</members>
+		<members>District__c.Country_Name__c</members>
+		<members>District__c.District_Pin_Code__c</members>
+		<members>District__c.State__c</members>
+		<members>State__c.Country__c</members>
+		<members>State__c.State_s_Country__c</members>
+		<members>State__c.State_Code__c</members>
+		<members>State__c.Total_District__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>Country__c</members>
+		<members>District__c</members>
+		<members>State__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>Country__c</members>
+		<members>District__c</members>
+		<members>State__c</members>
+		<name>CustomTab</name>
+	</types>
+	<version>53.0</version>
 </Package>
