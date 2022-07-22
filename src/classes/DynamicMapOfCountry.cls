@@ -18,33 +18,33 @@ public with sharing class DynamicMapOfCountry {
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 14/07/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 14/07/2022 - In Map Reduce the no of SOQL Qurey
-                                                                        and Implement in a Single Qurey and add the URL od the record
+                                                                        and Implement in a Single Qurey 
     **/
     public DynamicMapOfCountry(String countryName,String startLetter) {
-        
-        //this qurey working Parent(Country) to child(State) and child(District) to Parent(State) 
-        List<State__c>  listofState = [SELECT Id,country__r.Id, country__r.Country_Code__c,country__r.Name,Name,
-                                       (SELECT State__r.Country__r.Name, state__r.Name,Name FROM Districts__r ) 
-                                       FROM State__c ];
-        List<String> listOfCombinations = new List<String>();
-        if(!listofState.isEmpty()){
-            for(State__c state :listofState) {
-                if(countryMap.size() == 0){
-                    countryMap.put(state.country__r.Name,new Map<String, List<String>>());
+        List<String> listOfCombinations = new List<String>(); 
+        List<District__c> listofDistrict = [SELECT Name, State__r.Country__r.Name, State__r.Name FROM District__c];
+        for(District__c district :listofDistrict) {
+            if (!countryMap.containskey(district.State__r.Country__r.Name)){
+                countryMap.put(district.State__r.Country__r.Name, new Map<String,List<String>>());
+            }          
+            if(countryMap != null && countryMap.get(district.State__r.Country__r.Name) != null){
+                Map<String,List<String>> stateMap = countryMap.get(district.State__r.Country__r.Name);
+                if(!stateMap.containskey(district.State__r.Name)){
+                    stateMap.put(district.State__r.Name, new List<String>());
                 }
-                stateMap.put(state.Name, new List<String>());
-                for(District__c district : state.Districts__r){
-                    stateMap.get(district.state__r.Name).add(district.Name);
-                    if(district.State__r.Country__r.Name.startsWith(startLetter) && district.State__r.Name.startsWith(startLetter) &&
-                        district.Name.startsWith(startLetter)){                        
-                        listOfCombinations.add(district.State__r.Country__r.Name+','+district.State__r.Name+ ','+district.Name);
-                    }   
+                if(district.State__r.Country__r.Name.startsWith(startLetter) && district.State__r.Name.startsWith(startLetter) &&
+                    district.Name.startsWith(startLetter)){                        
+                    listOfCombinations.add(district.State__r.Country__r.Name+','+district.State__r.Name+ ','+district.Name);
+                }                  
+                if(stateMap != null){
+                stateMap.get(district.State__r.Name).add(district.Name);
+                countryMap.put(district.State__r.Country__r.Name, stateMap);
                 }
-            }
-            countryMap.get(listofState[0].country__r.Name).putAll(stateMap);
+            }  
         }
+        
         System.debug(countryMap);
-
+    
         if(!listOfCombinations.isEmpty()){
             System.debug('Combination of Country, State and District:'+listOfCombinations);
         }
@@ -64,8 +64,8 @@ public with sharing class DynamicMapOfCountry {
         //Aggregate Qurey------> Total District Of State   
         Map<Id, State__c> mapOfStateToBeUpdate = new Map<Id, State__c>();                                       
         for(AggregateResult aggre : [SELECT State__c, COUNT(Id)totalDistrict
-                                     FROM District__c 
-                                     GROUP BY State__c]){
+                                                      FROM District__c 
+                                                      GROUP BY State__c]){
             mapOfStateToBeUpdate.put(String.valueOf(aggre.get('State__c')),new State__c(Id = (Id)aggre.get('State__c'),
                 Total_District__c = (Decimal)aggre.get('totalDistrict')));
         }
@@ -96,7 +96,7 @@ public with sharing class DynamicMapOfCountry {
         // JSON Data
         List<State__c> stateList = [SELECT Id,country__r.Id,country__r.Country_Code__c,country__r.Name,country__r.Total_States__c,
                                     country__r.Total_District__c, Name
-                                    FROM State__c];
+                                    FROM State__c WHERE country__r.Name = :countryName];
         if(!stateList.isEmpty()){
             Country countryWrapper = new Country();
             countryWrapper.countryName = stateList[0].country__r.Name;
@@ -119,16 +119,15 @@ public with sharing class DynamicMapOfCountry {
             }
             JSONData = JSON.serialize(countryWrapper);
             System.debug('===>>>'+JSONData);   
-        }
-        if(!stateList.isEmpty()){
             Country__c  cou = new Country__c();
             cou.Id =  stateList[0].country__r.Id;
             cou.Country_JASON__c = JSONData;
             update cou;
+            String recordLink = URL.getSalesforceBaseUrl().toExternalForm() + '/' + stateList[0].Country__r.Id;
+            System.debug(recordLink);
         }
-        String recordLink = URL.getSalesforceBaseUrl().toExternalForm() + '/' + listofState[0].Country__r.Id;
-        System.debug(recordLink);
     }
+    
     //Wrapper Classes
     
     public class CountryData{
