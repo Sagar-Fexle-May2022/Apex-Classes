@@ -9,11 +9,11 @@
 		<members>Country__c.Country_JASON__c</members>
 		<members>Country__c.Total_District__c</members>
 		<members>Country__c.Total_States__c</members>
-		<members>District__c.Identify__c</members>
-		<members>District__c.Pin_Code__c</members>
+		<members>District__c.Country_Name__c</members>
+		<members>District__c.District_Pin_Code__c</members>
 		<members>District__c.State__c</members>
 		<members>State__c.Country__c</members>
-		<members>State__c.Identify__c</members>
+		<members>State__c.State_s_Country__c</members>
 		<members>State__c.State_Code__c</members>
 		<members>State__c.Total_District__c</members>
 		<name>CustomField</name>
