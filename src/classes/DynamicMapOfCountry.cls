@@ -64,8 +64,8 @@ public with sharing class DynamicMapOfCountry {
         //Aggregate Qurey------> Total District Of State   
         Map<Id, State__c> mapOfStateToBeUpdate = new Map<Id, State__c>();                                       
         for(AggregateResult aggre : [SELECT State__c, COUNT(Id)totalDistrict
-                                                      FROM District__c 
-                                                      GROUP BY State__c]){
+                                     FROM District__c 
+                                     GROUP BY State__c]){
             mapOfStateToBeUpdate.put(String.valueOf(aggre.get('State__c')),new State__c(Id = (Id)aggre.get('State__c'),
                 Total_District__c = (Decimal)aggre.get('totalDistrict')));
         }
