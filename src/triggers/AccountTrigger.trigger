@@ -10,14 +10,14 @@ trigger AccountTrigger on Account (before insert,before update,after insert,afte
     if(trigger.isBefore){
         System.debug('Checking in Before Trigger Operations');
         if(trigger.isInsert ){
-            TriggerAccountHandler.insertAndUpdateAccountType(Trigger.New, Trigger.old);
+            TriggerAccountHandler.insertAndUpdateAccountType(Trigger.New, Trigger.oldMap);
             System.debug('Check Insert List ::: Trigger.New ' + Trigger.New);
-            System.debug('Check Insert List ::: Trigger.old ' + Trigger.old); 
+            System.debug('Check Insert List ::: Trigger.old ' + Trigger.oldMap); 
         }
         if(trigger.isUpdate){
-            TriggerAccountHandler.insertAndUpdateAccountType(Trigger.New, Trigger.old);
+            TriggerAccountHandler.insertAndUpdateAccountType(Trigger.New, Trigger.oldMap);
             System.debug('Check Insert List ::: Trigger.New ' + Trigger.New);
-            System.debug('Check Insert List ::: Trigger.old ' + Trigger.old);
+            System.debug('Check Insert List ::: Trigger.old ' + Trigger.oldMap);
         
             if(Trigger.New[0].Type != Trigger.old[0].Type){
                 
@@ -27,10 +27,16 @@ trigger AccountTrigger on Account (before insert,before update,after insert,afte
             } 
         }
     }
+   /*if(trigger.isBefore){
+        if(trigger.isInsert || trigger.isUpdate){
+            TriggerAccountHandler.insertAndUpdateAccountType(Trigger.New, Trigger.old);
+        }
+    }*/
     //trigger for email 
     if(trigger.isAfter){
         if(trigger.isInsert ){
-            TriggerAccountHandler.sendEmail(Trigger.New);   
+            TriggerAccountHandler.sendEmail(Trigger.New); 
+            System.debug('Check Insert List ::: Trigger.New ' + Trigger.New);  
         }
     }
 }
