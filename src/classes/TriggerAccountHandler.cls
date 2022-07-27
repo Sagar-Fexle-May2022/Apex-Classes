@@ -8,15 +8,15 @@
 public with sharing class TriggerAccountHandler {
     /**   Description :   Method for Before insert and update  
     *     Created By  :   Sagar Nirwal
-    *     Arguments   :   List(trigger.new),List(trigger.old)
+    *     Arguments   :   List(trigger.new),Map(trigger.oldMap)
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 25/07/2022
-    *                     V_1.1 - Modified - Sagar Nirwal - 25/07/2022 - Details what you modified
+    *                     V_1.1 - Modified - Sagar Nirwal - 27/07/2022 - use trigger.OldMap 
     **/
-    public static void insertAndUpdateAccountType(List<Account> newList,  List<Account> oldList) {
+    public static void insertAndUpdateAccountType(List<Account> newAccounts,   Map<Id,Account> oldMapAccounts) {
         //String variable for removing prevoius SA or FD from account number
         String prefixLetter;
-        for(Account acc : newList){
+        for(Account acc : newAccounts){
             if(acc.Type != null && acc.Type == 'Saving Account' ){
                 //removing the previous prefix of account number to add the apporpirate prefix after update
                 prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
@@ -29,16 +29,16 @@ public with sharing class TriggerAccountHandler {
                 acc.AccountNumber = 'FD-'+ prefixLetter;
             }
             if(acc.Type != null && acc.Type == 'Other'){
-                if(oldList != null && oldList[0].Type == 'Saving Account'){
+                if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Saving Account'){
                     prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
                 }
-                if(oldList != null && oldList[0].Type == 'Fixed Deposit'){
+                if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Fixed Deposit'){
                     prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
                 }
                 acc.AccountNumber =  prefixLetter ;
             }
-            if(oldList != null && acc.Type != oldList[0].Type){
-				acc.Description = 'Modified Account';           
+            if(oldMapAccounts != null && acc.Type != oldMapAccounts.get(acc.Id).Type){
+		acc.Description = 'Midifed Account';           
             }
         }
     }
@@ -49,11 +49,11 @@ public with sharing class TriggerAccountHandler {
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 25/07/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 25/07/2022 - Details what you modified
     **/
-    public static void sendEmail(List<Account> newList){
+    public static void sendEmail(List<Account> newAccounts){
 
         //get all email in the list
         List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
-        for(Account acc: newList){
+        for(Account acc: newAccounts){
             if(acc.Name != null && acc.Type != null && acc.Email__c != null){   
                 //Create a new Email     
             	Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
