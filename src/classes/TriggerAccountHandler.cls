@@ -21,13 +21,11 @@ public with sharing class TriggerAccountHandler {
                 //removing the previous prefix of account number to add the apporpirate prefix after update
                 prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
                 acc.AccountNumber = 'SA-'+ prefixLetter;
-                acc.Description = 'Midifed Account'; 
             }
             if( acc.Type == 'Fixed Deposit'&&(oldMapAccounts == null || acc.Type != oldMapAccounts.get(acc.Id).Type)){
                 //removing the previous prefix of account number to add the apporpirate prefix after update
                 prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
                 acc.AccountNumber = 'FD-'+ prefixLetter;
-                acc.Description = 'Midifed Account';
             }
             if(acc.Type != null && acc.Type == 'Other'){
                 if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Saving Account'){
@@ -37,7 +35,9 @@ public with sharing class TriggerAccountHandler {
                     prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
                 }
                 acc.AccountNumber =  prefixLetter ;
-                acc.Description = 'Midifed Account';
+            }
+            if(oldMapAccounts != null && acc.Type != oldMapAccounts.get(acc.Id).Type){
+                acc.Description = 'Midifed Account';           
             }
         }
     }
