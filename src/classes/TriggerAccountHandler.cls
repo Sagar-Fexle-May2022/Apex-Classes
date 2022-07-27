@@ -17,27 +17,31 @@ public with sharing class TriggerAccountHandler {
         //String variable for removing prevoius SA or FD from account number
         String prefixLetter;
         for(Account acc : newAccounts){
-            if(acc.Type == 'Saving Account'&&(oldMapAccounts == null || acc.Type != oldMapAccounts.get(acc.Id).Type) ){
-                //removing the previous prefix of account number to add the apporpirate prefix after update
-                prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
-                acc.AccountNumber = 'SA-'+ prefixLetter;
-            }
-            if( acc.Type == 'Fixed Deposit'&&(oldMapAccounts == null || acc.Type != oldMapAccounts.get(acc.Id).Type)){
-                //removing the previous prefix of account number to add the apporpirate prefix after update
-                prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
-                acc.AccountNumber = 'FD-'+ prefixLetter;
-            }
-            if(acc.Type != null && acc.Type == 'Other'){
-                if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Saving Account'){
-                    prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
-                }
-                if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Fixed Deposit'){
+            if((oldMapAccounts == null || acc.Type != oldMapAccounts.get(acc.Id).Type)){
+                if(acc.Type == 'Saving Account'){
+                    //removing the previous prefix of account number to add the apporpirate prefix after update
                     prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
+                    acc.AccountNumber = 'SA-'+ prefixLetter;
                 }
-                acc.AccountNumber =  prefixLetter ;
-            }
-            if(oldMapAccounts != null && acc.Type != oldMapAccounts.get(acc.Id).Type){
-                acc.Description = 'Midifed Account';           
+                else if( acc.Type == 'Fixed Deposit'){
+                    //removing the previous prefix of account number to add the apporpirate prefix after update
+                    prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
+                    acc.AccountNumber = 'FD-'+ prefixLetter;
+                }
+                else{
+                    if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Saving Account'){
+                        prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
+                    }
+                    else if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Fixed Deposit'){
+                        prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
+                    }else{
+                        prefixLetter = acc.AccountNumber;
+                    }
+                    acc.AccountNumber =  prefixLetter ;
+                }
+                if(oldMapAccounts != null){
+                    acc.Description = 'Midifed Account';           
+                }
             }
         }
     }
