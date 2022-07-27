@@ -17,16 +17,17 @@ public with sharing class TriggerAccountHandler {
         //String variable for removing prevoius SA or FD from account number
         String prefixLetter;
         for(Account acc : newAccounts){
-            if(acc.Type != null && acc.Type == 'Saving Account' ){
+            if(acc.Type == 'Saving Account'&&(oldMapAccounts == null || acc.Type != oldMapAccounts.get(acc.Id).Type) ){
                 //removing the previous prefix of account number to add the apporpirate prefix after update
                 prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
                 acc.AccountNumber = 'SA-'+ prefixLetter;
-
+                acc.Description = 'Midifed Account'; 
             }
-            if(acc.Type != null && acc.Type == 'Fixed Deposit'){
+            if( acc.Type == 'Fixed Deposit'&&(oldMapAccounts == null || acc.Type != oldMapAccounts.get(acc.Id).Type)){
                 //removing the previous prefix of account number to add the apporpirate prefix after update
                 prefixLetter = (acc.AccountNumber.contains('SA-')) ? acc.AccountNumber.remove('SA-') : acc.AccountNumber ;
                 acc.AccountNumber = 'FD-'+ prefixLetter;
+                acc.Description = 'Midifed Account';
             }
             if(acc.Type != null && acc.Type == 'Other'){
                 if(oldMapAccounts != null && oldMapAccounts.get(acc.Id).Type == 'Saving Account'){
@@ -36,9 +37,7 @@ public with sharing class TriggerAccountHandler {
                     prefixLetter = (acc.AccountNumber.contains('FD-')) ? acc.AccountNumber.remove('FD-') : acc.AccountNumber ;
                 }
                 acc.AccountNumber =  prefixLetter ;
-            }
-            if(oldMapAccounts != null && acc.Type != oldMapAccounts.get(acc.Id).Type){
-		acc.Description = 'Midifed Account';           
+                acc.Description = 'Midifed Account';
             }
         }
     }
