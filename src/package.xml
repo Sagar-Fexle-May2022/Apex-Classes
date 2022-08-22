@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>TriggerAccountHandler</members>
+        <members>OpportunityTriggerHandler</members>
+        <members>TriggerAccountHelper</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>AccountTrigger</members>
+        <members>OpportunityTrigger</members>
+        <members>TriggerAccount</members>
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>Account.Email__c</members>
-        <name>CustomField</name>
-    </types>
-    <types>
         <members>Account</members>
+        <members>Automobile_Presence_Sensor__c</members>
+        <members>Automobile_Sensor__c</members>
+        <members>Automobile_TDU__c</members>
+        <members>Automobile_Tag__c</members>
+        <members>Opportunity</members>
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Account.Axis_Bank</members>
-        <name>RecordType</name>
+        <members>Automobile_Presence_Sensor__c</members>
+        <members>Automobile_Sensor__c</members>
+        <members>Automobile_TDU__c</members>
+        <members>Automobile_Tag__c</members>
+        <name>CustomTab</name>
     </types>
     <version>53.0</version>
 </Package>
