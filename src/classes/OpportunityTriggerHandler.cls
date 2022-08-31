@@ -345,7 +345,12 @@ public with sharing class OpportunityTriggerHandler {
                 System.debug(e.getMessage());
             }
         }
-        sendEmail(newOppList);
+        for (Opportunity opp : newOppList) {
+            if (opp.StageName == 'Shipped to Customer' || opp.StageName == 'Return To HQ' || opp.StageName ==  'Return To Customer') {
+                sendMail(newOppList, sensorInsertMap, presenceSensorInsertMap, tDUInsertMap, tagInsertMap,
+                sensorUpdateMap,presenceSensorUpdateMap, tDUUpdateMap, tagUpdateMap);
+            }
+        }
     }
     /**   Description :   Method to send mail to Opportunity owner
     *     Created By  :   Sagar Nirwal
@@ -354,70 +359,148 @@ public with sharing class OpportunityTriggerHandler {
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 01/08/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 01/08/2022 - Details what you modified
     **/
-    public static void sendEmail(List<Opportunity> newOppList){
-        List<Messaging.Email> emailList = new List<Messaging.Email>();
-        //Invalid sensor's list
-        List<String> invalidSensorName = new List<String>();
-        for(Opportunity opp : mapOfOppwithId.values()) {
-            Set<String> sensorSetName = mapOfOppwithSensors.get(opp.Id);
-            //Insitialization to mailing method
-            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            List<String> sendTo = new List<String>();
-            sendTo.add(opp.OwnerId);
-            mail.setToAddresses(sendTo);
-            mail.setSenderDisplayName('Sagar');
-            mail.setSubject(opp.Name +' '+ opp.CreatedDate);
-            String body ='Sensor shipment process is completed' ;
-            body += 'Please refer below mentioned details to get all the success and failure details.'+'<br/>';       
-            if(!sensorSetName.isEmpty()){
-                body +='<font size = "4">'+'Successful:'+'</font><br/><br/>';
-                body +='<table border="1" cellpadding = "10" cellspacing = "10" style="border-collapse:collapse">'+' '+
-                    '<tr height = "35" align="center"><th>'+'Automobile Type'+'</th><th>'+'Name'+
-                    '</th><th>'+'Message'+'</th></tr>';
-                for(String str : sensorSetName) {
-                    String name = (str.length()>18) ? str.substring(0, 18) : str;
-                    if(name.startsWith('00:11:CE:00')){
-                        body +='<tr height = "45" align="center"><td>'+'Sensor'+'</td><td>'+name+
-                            '</td><td>'+'Sensor inserted under Installation account '+opp.AccountId+'</td></tr>';
-                    }
-                    else if(name.startsWith('00:11:CE:D')) {
-                        body +='<tr height = "45" align="center"><td>'+'Presence_Sensor'+'</td><td>'+name+
-                            '</td><td>'+'Presece Sensor inserted under Installation account '+opp.AccountId+'</td></tr>';
-                    }  
-                    else if(name.startsWith('00:11:CE:E')){
-                        body +='<tr height = "45" align="center"><td>'+'TDU_Sensor'+'</td><td>'+name+
-                            '</td><td>'+'TDU Sensor inserted under Installation account '+opp.AccountId+'</td></tr>';
-                    }
-                    else if(name.substring(0,3).isNumeric() ||name.substring(3,4)=='-') {
-                        body +='<tr height = "45" align="center"><td>'+'Tag_Sensor'+'</td><td>'+name+
-                            '</td><td>'+'Tag Sensor inserted under Installation account '+opp.AccountId+'</td></tr>';
-                    }
-                    else {
-                        invalidSensorName.add(name);
-                    }
-                }
-                body+='</table><br/><br/>';
-            }
-            if(!invalidSensorName.isEmpty()) { 
-                body +='<font size = "4">'+'Unsuccessful:'+'</font><br/><br/>';
-                body +='<table border="1" cellpadding = "10" cellspacing = "10" style="border-collapse:collapse">'+' '+
-                    '<tr height = "35" align="center"><th>'+'Automobile Type'+'</th><th>'+'Name'+
-                    '</th><th>'+'Message'+'</th></tr>';
-                for(String str : invalidSensorName) {
-                    body +='<tr height = "45" align="center"><td>'+'Sensor'+'</td><td>'+str+
-                        '</td><td>'+'Invalid Sensors'+'</td></tr>';
-                }
-                body+='</table><br/><br/>';
-            }
-            mail.setHtmlBody(body);
-            emailList.add(mail);   
+    public static void sendMail(List<Opportunity> newOppList, Map<String,Automobile_Sensor_c> sensorInsertMap, Map<String,Automobile_Presence_Sensorc> presenceSensorInsertMap,  Map<String,Automobile_TDUc> tDUInsertMap, Map<String,Automobile_Tag_c> tagInsertMap,
+    Map<String,Automobile_Sensor_c> sensorUpdateMap, Map<String,Automobile_Presence_Sensorc> presenceSensorUpdateMap,  Map<String,Automobile_TDUc> tDUUpdateMap, Map<String,Automobile_Tag_c> tagUpdateMap){
+        String automobileSensorPattern = '00:11:CE:00';
+        String automobileSensorPresencePattern = '00:11:CE:D';
+        String automobileTDUPattern = '00:11:CE:E';
+        Set<Id> accId = new Set<Id>();
+        for (Opportunity opp : newOppList) {
+            accId.add(opp.AccountId);
+            accId.add(opp.Shipment_Account__c);
         }
-        //Send the email what we have created
-        if(!emailList.isEmpty()){
-	    Messaging.sendEmail(emailList);
-	}
+        Map<Id, Account> acc = new Map<Id, Account>([Select Id, Name From Account Where Id IN: accId]);
+        List<Messaging.SingleEmailMessage> mails =  new List<Messaging.SingleEmailMessage>();
+        for (Opportunity opp : newOppList) {
+            Messaging.SingleEmailMessage mail =  new Messaging.SingleEmailMessage();
+            List<String> sendTo = new List<String>();
+            sendTo.add(opp.OwnerId);//To fetch record owner mail
+            mail.setToAddresses(sendTo);
+            mail.setSubject(opp.Name + '' + date.today().format());
+            String body = 'Sensor shipment process is completed. Please refer below mentioned details to get all the success and failure details.<br>';
+            body += 'Successfull:<br>';
+            body += '<table style="width:100%" border = "1px solid black" ><tr><th>Automobile Type</th><th>Name</th><th>Message</th></tr>';
+            for (String tags : newOppList) { 
+                if (tags.length() > 18) {
+                    tags = tags.substring(0, 18);
+                }
+                if(tags.startsWith(automobileSensorPattern) ){
+                    if (automobileSensorInsertMap.keySet().contains(tags) ){
+                        body += '<tr><td>Sensor</td><td>' + tags + '</td><td>Sensor inserted under installation account: ' + acc.get(opp.AccountId).Name + '</td></tr>';
+                    }
+                    if (automobileSensorUpdateMap.keySet().contains(tags)) {
+                        System.debug('Entered the if condition');
+                        if (automobileSensorUpdateMap.get(tags).Account_c == opp.Shipment_Account__c) {
+                            System.debug('Entered the 2nd if condition');
+                            for (String hq : newOppList) {
+                                if (hq == tags) {
+                                    body += '<tr><td>Sensor</td><td>' + hq + '</td><td>Sensor moved under shipment account: ' + acc.get(opp.Shipment_Account__c).Name + '</td></tr>';
+                                }
+                            }
+                        }
+                        else if(automobileSensorUpdateMap.get(tags).Account__c == opp.AccountId){
+                            body += '<tr><td>Sensor</td><td>' + tags + '</td><td>Sensor is moved from shipment account ' + acc.get(opp.Shipment_Account__c).Name + ' to installation account ' + acc.get(opp.AccountId).Name + '.</td></tr>';
+                        }
+                    }
+                }
+                else if (tags.startsWith(automobileSensorPresencePattern) ){
+                    if (presenceSensorInsertMap.keySet().contains(tags)) {
+                        body += '<tr><td>Presence Sensor</td><td>' + tags + '</td><td>Presence Sensor inserted under installation account: ' + acc.get(opp.AccountId).Name + '</td></tr>';
+                    }
+                    if (automobilePresenceSensorUpdateMap.keySet().contains(tags)) {
+                        if (automobilePresenceSensorUpdateMap.get(tags).Account_c == opp.Shipment_Account__c) {
+                            for (String hq : newOppList) {
+                                if (hq == tags) {
+                                    body += '<tr><td>Presence Sensor</td><td>' + hq + '</td><td>Presence Sensor moved under shipment account: ' + acc.get(opp.Shipment_Account__c).Name + '</td></tr>';
+                                }
+                            }
+                        }
+                        else if(automobilePresenceSensorUpdateMap.get(tags).Account__c == opp.AccountId){
+                            body += '<tr><td>Presence Sensor</td><td>' + tags + '</td><td>Presence Sensor is moved from shipment account ' + acc.get(opp.Shipment_Account__c).Name + ' to installation account ' + acc.get(opp.AccountId).Name + '.</td></tr>';
+                        }
+                    }
+                    
+                }
+                else if (tags.startsWith(automobileTDUPattern)){
+                    if (automobileTDUInsertMap.keySet().contains(tags)) {
+                        body += '<tr><td>TDU</td><td>' + tags + '</td><td>TDU inserted under installation account: ' + acc.get(opp.AccountId).Name + '</td></tr>';
+                    }
+                    if (automobileTDUUpdateMap.keySet().contains(tags)) {
+                        if (automobileTDUUpdateMap.get(tags).Account_c == opp.Shipment_Account__c) {
+                            for (String hq : hqTag(newOppList)) {
+                                if (hq == tags) {
+                                    body += '<tr><td>TDU</td><td>' + hq + '</td><td>TDU moved under shipment account: ' + acc.get(opp.Shipment_Account__c).Name + '</td></tr>';
+                                }
+                            }
+                        }
+                        else if(automobileTDUUpdateMap.get(tags).Account__c == opp.AccountId){
+                            body += '<tr><td>TDU</td><td>' + tags + '</td><td>TDU is moved from shipment account ' + acc.get(opp.Shipment_Account__c).Name + ' to installation account ' + acc.get(opp.AccountId).Name + '.</td></tr>';
+                        }
+                    }
+                }
+                else{
+                    string sString = tags;
+                    string[] splitted = sString.split('\\-');
+                    if (splitted[0].isNumeric()  ) {
+                        if (automobileTagInsertMap.keySet().contains(tags)) {
+                            body += '<tr><td>Tag</td><td>' + tags + '</td><td>Tag inserted under installation account: ' + acc.get(opp.AccountId).Name + '</td></tr>';
+                        }
+                        if (automobileTagUpdateMap.keySet().contains(tags)) {
+                            if (automobileTagUpdateMap.get(tags).Account_c == opp.Shipment_Account__c) {
+                                for (String hq : hqTag(newOppList)) {
+                                    if (hq == tags) {
+                                        body += '<tr><td>Tag</td><td>' + hq + '</td><td>Tag moved under shipment account: ' + acc.get(opp.Shipment_Account__c).Name + '</td></tr>';
+                                    }
+                                }
+                            }
+                            else if(automobileTagUpdateMap.get(tags).Account__c == opp.AccountId){
+                                body += '<tr><td>Tag</td><td>' + tags + '</td><td>Tag is moved from shipment account ' + acc.get(opp.Shipment_Account__c).Name + ' to installation account ' + acc.get(opp.AccountId).Name + '.</td></tr>';
+                            }
+                        }
+                    }
+                }
+            }
+            body += '</table>';
+            body += '<br>Unsuccessfull:<br>';
+            body += '<table style="width:100%" border = "1px solid black"><tr><th>Automobile Type</th><th>Name</th><th>Message</th></tr>';
+            for (String tags : newOppList) {
+                string sString = tags;
+                string[] splitted = sString.split('\\-');
+                if (!tags.startsWith(automobileSensorPattern) && !tags.startsWith(automobileSensorPresencePattern) && !tags.startsWith(automobileTDUPattern) && !splitted[0].isNumeric()) {
+                    body += '<tr><td>Sensor</td><td>' + tags + '</td><td>Invalid sensor</td></tr>';
+                }
+                else{
+                    if (tags.startsWith(automobileSensorPattern)) {
+                        if (!automobileSensorInsertMap.keySet().contains(tags) && !automobileSensorUpdateMap.keySet().contains(tags)) {
+                            body += '<tr><td>Sensor</td><td>' + tags + '</td><td>Sensor cant inserted under installation account ' + acc.get(opp.AccountId).Name  + ' b/c it is already exists under the installation account.</td></tr>';
+                        }
+                    }
+                    else if (tags.startsWith(automobileSensorPresencePattern)) {
+                        if (!presenceSensorInsertMap.keySet().contains(tags) && !automobilePresenceSensorUpdateMap.keySet().contains(tags)) {
+                            body += '<tr><td>Presence Sensor</td><td>' + tags + '</td><td>Presence Sensor cant inserted under installation account ' + acc.get(opp.AccountId).Name + ' b/c it is already exists under the installation account.</td></tr>';
+                        }
+                    }
+                    else if (tags.startsWith(automobileTDUPattern)) {
+                        if (!automobileTDUInsertMap.keySet().contains(tags) && !automobileTDUUpdateMap.keySet().contains(tags)) {
+                            body += '<tr><td>TDU</td><td>' + tags + '</td><td>TDU cant inserted under installation account ' + acc.get(opp.AccountId).Name + ' b/c it is already exists under the installation account.</td></tr>';
+                        }
+                    }
+                    else if (splitted[0].isNumeric()) {
+                        if (!automobileTagInsertMap.keySet().contains(tags) && !automobileTagUpdateMap.keySet().contains(tags)) {
+                            body += '<tr><td>Tag</td><td>' + tags + '</td><td>Tag cant inserted under installation account ' + acc.get(opp.AccountId).Name + ' b/c it is already exists under the installation account.</td></tr>';
+                        }
+                    }
+                }
+            }
+            body += '</table>';
+            mail.setHtmlBody(body);
+            mails.add(mail);
+        }
+        if(!mails.isEmpty()){
+			Messaging.sendEmail(mails);
+		}
     }
-}
+} 
 /*
 00:11:CE:00:123
 00:11:CE:D12
