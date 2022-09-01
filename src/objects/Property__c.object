@@ -152,78 +152,28 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <externalSharingModel>Private</externalSharingModel>
     <fields>
-        <fullName>Country__c</fullName>
+        <fullName>Status__c</fullName>
         <externalId>false</externalId>
-        <label>Country Name</label>
-        <referenceTo>Country__c</referenceTo>
-        <relationshipLabel>States</relationshipLabel>
-        <relationshipName>States</relationshipName>
-        <relationshipOrder>0</relationshipOrder>
-        <reparentableMasterDetail>false</reparentableMasterDetail>
-        <trackTrending>false</trackTrending>
-        <type>MasterDetail</type>
-        <writeRequiresMasterRead>false</writeRequiresMasterRead>
-    </fields>
-    <fields>
-        <fullName>State_Code__c</fullName>
-        <externalId>false</externalId>
-        <label>State Code</label>
-        <length>4</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>State_JSON_Data__c</fullName>
-        <externalId>false</externalId>
-        <label>State JSON Data</label>
+        <label>Status</label>
         <length>32768</length>
         <trackTrending>false</trackTrending>
         <type>Html</type>
         <visibleLines>25</visibleLines>
     </fields>
-    <fields>
-        <fullName>State_s_Country__c</fullName>
-        <externalId>false</externalId>
-        <formula>Country__r.Name&amp;&quot;-&gt;&quot;&amp; Name</formula>
-        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
-        <label>State&apos;s Country</label>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>Total_District__c</fullName>
-        <externalId>false</externalId>
-        <label>Total District</label>
-        <precision>10</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <label>State</label>
+    <label>Property</label>
     <listViews>
         <fullName>All</fullName>
-        <columns>NAME</columns>
-        <columns>State_Code__c</columns>
-        <columns>Total_District__c</columns>
-        <columns>Country__c</columns>
-        <columns>CREATEDBY_USER</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
     <nameField>
-        <label>States Name</label>
+        <label>Property Name</label>
         <type>Text</type>
     </nameField>
-    <pluralLabel>States</pluralLabel>
+    <pluralLabel>Properties</pluralLabel>
     <searchLayouts/>
-    <sharingModel>ControlledByParent</sharingModel>
+    <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
