@@ -1,4 +1,4 @@
-trigger TriggerAccount on Account (before insert) {
+trigger TriggerAccount on Account (before Update,after Update) {
     if(Trigger.isBefore){
         if(Trigger.isUpdate){
             //TriggerAccountHelper.checkCondition();
