@@ -360,7 +360,7 @@ public with sharing class OpportunityTriggerHandler {
     *                     V_1.1 - Modified - Sagar Nirwal - 01/08/2022 - Details what you modified
     **/
     public static void sendMail(List<Opportunity> newOppList, Map<String,Automobile_Sensor_c> sensorInsertMap, Map<String,Automobile_Presence_Sensorc> presenceSensorInsertMap,  Map<String,Automobile_TDUc> tDUInsertMap, Map<String,Automobile_Tag_c> tagInsertMap,
-    Map<String,Automobile_Sensor_c> sensorUpdateMap, Map<String,Automobile_Presence_Sensorc> presenceSensorUpdateMap,  Map<String,Automobile_TDUc> tDUUpdateMap, Map<String,Automobile_Tag_c> tagUpdateMap){
+    				Map<String,Automobile_Sensor_c> sensorUpdateMap, Map<String,Automobile_Presence_Sensorc> presenceSensorUpdateMap,  Map<String,Automobile_TDUc> tDUUpdateMap, Map<String,Automobile_Tag_c> tagUpdateMap){
         String automobileSensorPattern = '00:11:CE:00';
         String automobileSensorPresencePattern = '00:11:CE:D';
         String automobileTDUPattern = '00:11:CE:E';
@@ -497,8 +497,8 @@ public with sharing class OpportunityTriggerHandler {
             mails.add(mail);
         }
         if(!mails.isEmpty()){
-			Messaging.sendEmail(mails);
-		}
+	    Messaging.sendEmail(mails);
+	}
     }
 } 
 /*
