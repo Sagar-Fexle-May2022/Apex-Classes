@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>ContactTriggerHandler</members>
@@ -22,6 +22,9 @@
     <types>
         <members>Property__c</members>
         <name>CustomTab</name>
-    </types>
-    <version>53.0</version>
+	<types>
+		<members>calculator</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<version>53.0</version>
 </Package>
