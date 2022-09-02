@@ -22,9 +22,6 @@
     <types>
         <members>Property__c</members>
         <name>CustomTab</name>
-	<types>
-		<members>calculator</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<version>53.0</version>
+    </types>
+    <version>53.0</version>
 </Package>
