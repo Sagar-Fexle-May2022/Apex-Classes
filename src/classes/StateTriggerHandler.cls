@@ -6,9 +6,46 @@
 *                  V_1.1 - Modified - Sagar NIrwal - 28/08/2022 -  Details what you modified
 **/
 public with sharing class StateTriggerHandler {
+    /**   Description :   Method State JSON data
+    *     Created By  :   Sagar Nirwal
+    *     Arguments   :   List,Map
+    *     Return      :   void
+    *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 28/08/2022
+    *                     V_1.1 - Modified - Sagar Nirwal - 28/08/2022 - Details what you modified
+    **/
+    public static void stateJsonData(List<State__c> newStateList ,Map<Id,State__c> oldStateMap){
+        Set<Id> stateIds = new Set<Id>();
+        for(State__c state: newStateList){
+            if(state.Total_District__c != oldStateMap.get(state.Id).Total_District__c){
+                stateIds.add(state.Id);
+            }
+        }
+        if(!stateIds.isEmpty()){
+            Map<Id, State__c> mapOfState = new Map<Id, State__c>([SELECT Id, Name, Total_District__c, (SELECT Id, Name FROM Districts__r) 
+                                                                FROM State__c]);
+            State__c state = new State__c();
+            for(State__c st: newStateList){
+                if(mapOfState.containsKey(st.Id)){ 
+                    State wrapState = new State();
+                    wrapState.stateName = st.Name;
+                    wrapState.totalDistrict = st.Total_District__c;
+                    wrapState.districts = new List<Districts>();
+                    for(District__c dis: mapOfState.get(st.Id).Districts__r){
+                        Districts wrapDistrict = new Districts();
+                        wrapDistrict.districtName = dis.Name;
+                        wrapState.districts.add(wrapDistrict);
+                    }
+                String jString = JSON.serialize(wrapState);
+                state.Id = st.Id;
+                state.State_JSON_Data__c = jString;
+                }
+            }
+            update state;
+        }
+    }
     /**   Description :   Method count States On Country
     *     Created By  :   Sagar Nirwal
-    *     Arguments   :   List<State__c>,List<State__c>
+    *     Arguments   :   List,Map
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 28/08/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 28/08/2022 - Details what you modified
@@ -29,15 +66,6 @@ public with sharing class StateTriggerHandler {
             }
         }
 
-        Map<Id, State__c> mapOfStateToBeUpdate = new Map<Id, State__c>();                                       
-        for(AggregateResult agr : [SELECT State__c, COUNT(Id)totalDistrict
-                                    FROM District__c GROUP BY State__c]){
-            mapOfStateToBeUpdate.put(String.valueOf(agr.get('State__c')),new State__c(Id = (Id)agr.get('State__c'),
-                Total_District__c = (Decimal)agr.get('totalDistrict')));
-        }
-        if(!mapOfStateToBeUpdate.isEmpty()){
-            update mapOfStateToBeUpdate.values();
-        }
         if(!mapOfCountryUpdate.isEmpty()){
             for(AggregateResult agr:[SELECT Country__c , COUNT(Id)totalStates, SUM(Total_District__c)totalDistrict 
                                     FROM State__c WHERE Id
@@ -50,54 +78,16 @@ public with sharing class StateTriggerHandler {
         if(!mapOfCountryUpdate.isEmpty()){
             update mapOfCountryUpdate.values();
         }
-
-        List<State__c> stateList = [SELECT Id, country__r.Id,country__r.Name,country__r.Total_States__c,
-                                    country__r.Total_District__c, Name
-                                    FROM State__c WHERE country__r.Name IN : mapOfCountryUpdate.keySet()];
-        if(!stateList.isEmpty()){
-            Country countryWrapper = new Country();
-            countryWrapper.countryName = stateList[0].country__r.Name;
-            countryWrapper.TotalStates = stateList[0].country__r.Total_States__c;
-            countryWrapper.TotalDistrict = stateList[0].country__r.Total_District__c;
-            countryWrapper.states = new List<State>();
-            for(State__c st : stateList){
-               State stateWrapper = new State();
-                stateWrapper.stateName = st.Name;
-                stateWrapper.districts = new List<District>();
-                if(mapOfCountryUpdate.containsKey(stateList[0].country__r.Name)&& mapOfCountryUpdate.get(stateList[0].country__r.Name).containsKey(st.name)){
-                    for(String dist: mapOfCountryUpdate.get(stateList[0].country__r.Name).get(st.Name)){
-                        District districtWrapper = new District();
-                        districtWrapper.districtName = dist;
-                        stateWrapper.districts.add(districtWrapper);
-                    }
-                }
-                countryWrapper.states.add(stateWrapper);
-            }
-            String JSONData = JSON.serialize(countryWrapper);
-            System.debug('===>>>'+JSONData);   
-            Country__c  cou = new Country__c();
-            cou.Id =  stateList[0].country__r.Id;
-            cou.Country_JASON__c = JSONData;
-            update cou;  
-        } 
     }
 
     //Wrapper Classes
-    
-    public class CountryData{
-        public List<Country> country{get; set;}
+    public List<State> states{get; set;}
+    public class State{
+        Public string stateName{get; set;}
+        Public List<Districts> districts{get; set;}
+        public Decimal totalDistrict{get; set;}
     }
-    public class Country {
-        public String countryName{get; set;}
-        public Decimal TotalStates{get; set;}
-        public Decimal TotalDistrict{get; set;}
-        public List<State> states{get; set;}
-    }
-    public class State {
-        public String stateName{get; set;}
-        public List<District> districts{get; set;}
-    }
-    public class District {
-        public String districtName{get; set;}
+    public class Districts{
+        Public String districtName{get; set;}
     } 
 }
