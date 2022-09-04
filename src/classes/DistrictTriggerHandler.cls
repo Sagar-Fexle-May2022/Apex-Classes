@@ -34,41 +34,8 @@ public with sharing class DistrictTriggerHandler {
                 mapOfStatusToUpdate.get((Id)result.get('State__c')).Total_District__c = (Decimal)result.get('numOfDis');   
             }
         }
-        
-        Map<Id, State__c> mapOfState = new Map<Id, State__c>([SELECT Id, Name, Total_District__c, (SELECT Id, Name FROM Districts__r) 
-                                                                FROM State__c WHERE Id IN : mapOfStatusToUpdate.keySet()]);
-        for(State__c st : mapOfState.values()){
-            if(mapOfStatusToUpdate.containskey(st.Id)){
-                State wrapState = new State(); 
-                wrapState.stateName = st.Name;
-                wrapState.districts = new List<Districts>();
-                wrapState.Total_Number_Of_Districts = mapOfStatusToUpdate.get(st.Id).Total_District__c;      
-                for(District__c dt : mapOfState.get(st.Id).Districts__r){
-                    Districts wrapDistrict = new Districts();
-                    wrapDistrict.districtName = dt.Name;
-                    wrapState.districts.add(wrapDistrict);
-                }
-                String jString = JSON.serialize(wrapState);
-                State__c state = new State__c();
-                state.Id = st.Id;
-                state.State_JSON_Data__c = jString;
-                state.Total_District__c = mapOfStatusToUpdate.get(st.Id).Total_District__c;
-                
-                mapOfStatusToUpdate.put(state.Id, state);
-            } 
-        }
         if(!mapOfStatusToUpdate.isEmpty()){
             Update mapOfStatusToUpdate.values();
         }  
-    }
-    
-    public List<State> states{get; set;}
-    public class State{
-        Public string stateName{get; set;}
-        Public List<Districts> districts{get; set;}
-        public Decimal Total_Number_Of_Districts{get; set;}
-    }
-    public class Districts{
-        Public String districtName{get; set;}
     }
 }
