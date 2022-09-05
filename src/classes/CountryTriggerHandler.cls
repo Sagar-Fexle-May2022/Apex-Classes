@@ -24,11 +24,9 @@ public with sharing class CountryTriggerHandler {
         }
         if(!setOfCountryId.isEmpty()){
 
-            Map<Id,State__c> mapOfStatewithCountryId = new Map<Id,State__c>([SELECT Id, Country__c,country__r.Id,country__r.Name,
-                                                                            Country__r.Country_Code__c,country__r.Total_States__c,
-                                                                            country__r.Total_District__c, Name,Total_District__c,
-                                                                            (SELECT id, Name FROM Districts__r)
-                                                                            FROM State__c WHERE country__r.Id IN : setOfCountryId]);
+            Map<Id,State__c> mapOfStatewithCountryId = new Map<Id,State__c>([SELECT Id, Country__c,country__r.Id,country__r.Name,Country__r.Country_Code__c,country__r.Total_States__c,
+                                                                    country__r.Total_District__c, Name,Total_District__c,(SELECT id, Name FROM Districts__r)
+                                                                    FROM State__c WHERE country__r.Id IN : setOfCountryId]);
             System.debug(mapOfStatewithCountryId.values());
 
             for(Country__c cou : newCountryList){
@@ -39,14 +37,13 @@ public with sharing class CountryTriggerHandler {
                     wCountry.states = new List<states>();
                     System.debug(cou.Total_District__c);
                     System.debug(cou.Total_States__c);
-                    wCountry.Total_Number_Of_Districts = (Integer)cou.Total_District__c;
                     wCountry.Total_Number_Of_States = (Integer)cou.Total_States__c;
+                    wCountry.Total_Number_Of_Districts = (Integer)cou.Total_District__c;
 
                     for(State__c st : mapOfStatewithCountryId.values()){    
                         States wrapState = new States();
                         wrapState.stateName = st.Name;
                         wrapState.districts = new List<Districts>();
-                        wrapState.Total_Number_Of_Districts = String.valueof(st.Total_District__c); 
                         for(District__c dt : st.Districts__r){
                             Districts wrapDistrict = new Districts();
                             wrapDistrict.districtName = dt.Name;
@@ -71,7 +68,6 @@ public with sharing class CountryTriggerHandler {
     public class States{
         Public string stateName{get; set;}
         Public List<Districts> districts{get; set;}
-        public String Total_Number_Of_Districts{get; set;}
     }
     public class Districts{
         Public String districtName{get; set;}
