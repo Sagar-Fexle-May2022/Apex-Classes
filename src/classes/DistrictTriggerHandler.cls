@@ -33,9 +33,7 @@ public with sharing class DistrictTriggerHandler {
                                         FROM District__c WHERE State__c in:mapOfStatusToUpdate.keySet() GROUP BY State__c]){
                 mapOfStatusToUpdate.get((Id)result.get('State__c')).Total_District__c = (Decimal)result.get('numOfDis');   
             }
-        }
-        if(!mapOfStatusToUpdate.isEmpty()){
-            Update mapOfStatusToUpdate.values();
+            update mapOfStatusToUpdate.values();
         }  
     }
 }
