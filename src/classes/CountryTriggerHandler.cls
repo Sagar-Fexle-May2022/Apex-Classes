@@ -25,19 +25,18 @@ public with sharing class CountryTriggerHandler {
             }
             if(!setOfCountryId.isEmpty()){
                 List<State__c> listOfState = [SELECT Id, country__r.Id,country__r.Name,country__r.Total_States__c,
-                                             country__r.Total_District__c, Name
-                                             FROM State__c WHERE country__r.Name IN : setOfCountryId];
-                Map<Id, State__c> mapOfStatewithCountryId = new Map<Id, State__c>();
+                                                country__r.Total_District__c, Name
+                                                FROM State__c WHERE country__r.Name IN : setOfCountryId];
+                Map<Id,List<State__c>> mapOfStatewithCountryId = new Map<Id,List<State__c>>();
                 for(State__c st : listOfState){
                     if(!mapOfStatewithCountryId.containsKey(st.Country__c)){
-                        mapOfStatewithCountryId.put(st.Country__c, st);
+                        mapOfStatewithCountryId.get(st.Country__c).add(st);
                     }
                 }
 
                 if(!newCountryList.isEmpty()){
                     for(Country__c cou : newCountryList){
-                        if(oldCountryMap != null && (cou.Total_District__c != oldCountryMap.get(cou.id).Total_District__c 
-                            || cou.Total_States__c != oldCountryMap.get(cou.id).Total_States__c )) {  
+                        if(setOfCountryId.contains(cou.Id)) {  
                             Country wCountry = new Country();
                             wCountry.countryName = mapOfStatewithCountryId.get(cou.Id).Country__r.Name;
                             wCountry.countryCode = mapOfStatewithCountryId.get(cou.Id).Country__r.Country_Code__c;
@@ -45,25 +44,24 @@ public with sharing class CountryTriggerHandler {
                             wCountry.Total_Number_Of_Districts = (Integer)cou.Total_District__c;
                             wCountry.Total_Number_Of_States = (Integer)cou.Total_States__c;
 
-                            for(State__c st : listOfState)
-                            {   
-                                if(st.Country__c == cou.Id)
-                                {
-                                    States wrapState = new States();
-                                    wrapState.stateName = st.Name;
-                                    wrapState.districts = new List<Districts>();
-                                    wrapState.Total_Number_Of_Districts = (Integer)st.Total_District__c; 
+                            for(State__c st : listOfState){ 
+                                if(mapOfStatewithCountryId.containsKey(st.Id)){  
+                                    if(st.Country__c == cou.Id){
+                                        States wrapState = new States();
+                                        wrapState.stateName = st.Name;
+                                        wrapState.districts = new List<Districts>();
+                                        wrapState.Total_Number_Of_Districts = (Integer)st.Total_District__c; 
 
-                                    for(District__c dt : st.Districts__r)
-                                {
-                                    Districts wrapDistrict = new Districts();
-                                    wrapDistrict.districtName = dt.Name;
-                                    wrapState.districts.add(wrapDistrict);
-                                }
-                                wCountry.states.add(wrapState);   
+                                        for(District__c dt : st.Districts__r){
+                                            Districts wrapDistrict = new Districts();
+                                            wrapDistrict.districtName = dt.Name;
+                                            wrapState.districts.add(wrapDistrict);
+                                        }
+                                        wCountry.states.add(wrapState);   
+                                    }
                                 }
                             }
-                             String jString = JSON.serialize(wCountry);
+                            String jString = JSON.serialize(wCountry);
                             cou.Country_JASON__c = jString;
                         }
                     } 
