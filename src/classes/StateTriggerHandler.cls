@@ -22,8 +22,7 @@ public with sharing class StateTriggerHandler {
         }
         if(!stateIds.isEmpty()){
             Map<Id, State__c> mapOfState = new Map<Id, State__c>([SELECT Id, Name, Total_District__c, (SELECT Id, Name FROM Districts__r) 
-                                                                FROM State__c]);
-            State__c state = new State__c();
+                                                                FROM State__c WHERE Id IN : stateIds]);
             for(State__c st: newStateList){
                 if(mapOfState.containsKey(st.Id)){ 
                     State wrapState = new State();
@@ -36,11 +35,9 @@ public with sharing class StateTriggerHandler {
                         wrapState.districts.add(wrapDistrict);
                     }
                 String jString = JSON.serialize(wrapState);
-                state.Id = st.Id;
-                state.State_JSON_Data__c = jString;
+                st.State_JSON_Data__c = jString;
                 }
             }
-            update state;
         }
     }
     /**   Description :   Method count States On Country
@@ -74,8 +71,6 @@ public with sharing class StateTriggerHandler {
                                         Total_States__c = (Decimal)agr.get('totalStates'),
                                         Total_District__c = (Decimal)agr.get('totalDistrict')));
             }
-        }
-        if(!mapOfCountryUpdate.isEmpty()){
             update mapOfCountryUpdate.values();
         }
     }
