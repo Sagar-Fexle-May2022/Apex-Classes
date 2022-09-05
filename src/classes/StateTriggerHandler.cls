@@ -22,7 +22,7 @@ public with sharing class StateTriggerHandler {
         }
         if(!stateIds.isEmpty()){
             Map<Id, State__c> mapOfState = new Map<Id, State__c>([SELECT Id, Name, Total_District__c, (SELECT Id, Name FROM Districts__r) 
-                                                                FROM State__c WHERE Id IN : stateIds]);
+                                                                 FROM State__c WHERE Id IN : stateIds]);
             for(State__c st: newStateList){
                 if(mapOfState.containsKey(st.Id)){ 
                     State wrapState = new State();
@@ -34,8 +34,8 @@ public with sharing class StateTriggerHandler {
                         wrapDistrict.districtName = dis.Name;
                         wrapState.districts.add(wrapDistrict);
                     }
-                String jString = JSON.serialize(wrapState);
-                st.State_JSON_Data__c = jString;
+                    String jString = JSON.serialize(wrapState);
+                    st.State_JSON_Data__c = jString;
                 }
             }
         }
@@ -54,12 +54,12 @@ public with sharing class StateTriggerHandler {
 
         for(State__c std:newStateList !=null ? newStateList:oldStateMap.Values()){
             if(std.Country__c!=null){
-                mapOfCountryUpdate.put(std.Country__c,new Country__c(Id=std.Country__c,Total_States__c=0,Total_District__c = 0));
+                mapOfCountryUpdate.put(std.Country__c,new Country__c(Id=std.Country__c,Total_States__c= 0,Total_District__c = 0));
             }
 
             if(oldStateMap !=null && std.Country__c != oldStateMap.get(std.Id).Country__c){
                 mapOfCountryUpdate.put(oldStateMap.get(std.Id).Country__c,
-                new Country__c(Id=oldStateMap.get(std.Id).Country__c,Total_States__c=0,Total_District__c = 0));
+                new Country__c(Id=oldStateMap.get(std.Id).Country__c,Total_States__c= 0,Total_District__c = 0));
             }
         }
 
@@ -69,7 +69,7 @@ public with sharing class StateTriggerHandler {
                                     IN:mapOfCountryUpdate.keySet() GROUP BY Country__c]){
                 mapOfCountryUpdate.put(String.valueOf(agr.get('Country__c')),new Country__c(Id = (Id)agr.get('Country__c'),
                                         Total_States__c = (Decimal)agr.get('totalStates'),
-                                        Total_District__c = (Decimal)agr.get('totalDistrict')));
+                                        Total_District__c = (Decimal)agr.get('totalDistrict')));                       
             }
             update mapOfCountryUpdate.values();
         }
