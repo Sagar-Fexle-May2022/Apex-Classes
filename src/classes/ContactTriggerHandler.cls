@@ -28,7 +28,7 @@ public with sharing class ContactTriggerHandler {
             Account acc = accMap.get(con.AccountId);
             if(acc.Status__c != null && !String.isBlank(acc.Status__c)){
                 con.Status__c = acc.Status__c; 
-            }else if(acc.Property__r.Status__c!=null){
+            }else if(acc.Property__r.Status__c!=null && !String.isBlank(acc.Property__r.Status__c)){
                 con.Status__c = acc.Property__r.Status__c;
             }
         }
