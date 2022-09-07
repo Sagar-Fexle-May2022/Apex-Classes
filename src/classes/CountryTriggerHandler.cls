@@ -17,16 +17,21 @@ public with sharing class CountryTriggerHandler {
 
         Set<Id> setOfCountryId = new Set<Id>();
         for(Country__c cou : newCountryList){
-            if(oldCountryMap != null){   
+            if(oldCountryMap != null || (cou.Total_States__c != 
+                    oldCountryMap.get(cou.Id).Total_States__c )
+                    ||(cou.Total_District__c != 
+                   oldCountryMap.get(cou.Id).Total_District__c )){   
                 setOfCountryId.add(cou.Id); 
                 System.debug(cou);              
             }
         }
         if(!setOfCountryId.isEmpty()){
 
-            Map<Id,State__c> mapOfStatewithCountryId = new Map<Id,State__c>([SELECT Id, Country__c,country__r.Id,country__r.Name,Country__r.Country_Code__c,country__r.Total_States__c,
-                                                                    country__r.Total_District__c, Name,Total_District__c,(SELECT id, Name FROM Districts__r)
-                                                                    FROM State__c WHERE country__r.Id IN : setOfCountryId]);
+            Map<Id,State__c> mapOfStatewithCountryId = new Map<Id,State__c>([SELECT Id, Country__c,country__r.Id,country__r.Name,
+                                                                            country__r.Country_Code__c,country__r.Total_States__c,
+                                                                            country__r.Total_District__c, Name,Total_District__c,
+                                                                            (SELECT id, Name FROM Districts__r)
+                                                                            FROM State__c WHERE country__r.Id IN : setOfCountryId]);
             System.debug(mapOfStatewithCountryId.values());
 
             for(Country__c cou : newCountryList){
