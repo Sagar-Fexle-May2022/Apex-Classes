@@ -30,7 +30,7 @@ public with sharing class DistrictTriggerHandler {
         }
         if(!mapOfStatesToUpdate.isEmpty()){
             for(AggregateResult result :[SELECT Count(Id)numOfDis, State__c 
-                                        FROM District__c WHERE State__c in:mapOfStatusToUpdate.keySet() GROUP BY State__c]){
+                                        FROM District__c WHERE State__c in:mapOfStatesToUpdate.keySet() GROUP BY State__c]){
                 mapOfStatesToUpdate.get((Id)result.get('State__c')).Total_District__c = (Decimal)result.get('numOfDis');   
             }
             update mapOfStatesToUpdate.values();
