@@ -20,8 +20,11 @@ public with sharing class ContactTriggerHandler {
         } 
         System.debug(setOfAccountIds);
         if(!setOfAccountIds.isEmpty()){
-            Map<Id,Account> mapAccountWithId = new Map<Id,Account>([SELECT Id,Status__c,Property__c,Property__r.Status__c,Property__r.Name 
-                                                                    FROM Account WHERE Id IN: setOfAccountIds]);
+            Map<Id,Account> mapAccountWithId = new Map<Id,Account>([SELECT Id,Status__c,Property__c,
+                                                                    Property__r.Status__c,
+                                                                    Property__r.Name 
+                                                                    FROM Account 
+                                                                    WHERE Id IN: setOfAccountIds]);
             System.debug(mapAccountWithId);                                                            
             for(Contact con: newContactList){
                 if(con.Status__c == null) {
