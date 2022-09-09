@@ -1,7 +1,7 @@
 trigger StateTrigger on State__c (before update, after insert, after update, after delete) {
     if(Trigger.isBefore){
         if(Trigger.isUpdate){
-            StateTriggerHandler.stateJsonData(Trigger.New, Trigger.OldMap);
+            StateTriggerHandler.updateStateJsonData(Trigger.New, Trigger.OldMap);
         }
     }
     if(Trigger.isAfter){
