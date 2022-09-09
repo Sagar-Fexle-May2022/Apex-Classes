@@ -8,7 +8,7 @@
 public with sharing class ContactTriggerHandler {
     /**   Description :   Method synchronize Record
     *     Created By  :   Sagar Nirwal
-    *     Arguments   :   List<State__c>,List<State__c>
+    *     Arguments   :   List<Contact>
     *     Return      :   void
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 28/08/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 28/08/2022 - Details what you modified
