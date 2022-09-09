@@ -15,25 +15,25 @@ public with sharing class DistrictTriggerHandler {
     **/
     public static void finalizingCountOfDistrictOnStates(List<District__c> newDistrictList, Map<Id, District__c> oldDistrictMap){
         
-        Map<Id, State__c> mapOfStatusToUpdate = new Map<Id, State__c>();
+        Map<Id, State__c> mapOfStatesToUpdate = new Map<Id, State__c>();
         
         for(District__c dist : newDistrictList !=null ? newDistrictList : oldDistrictMap.values()){
             
             if(dist.State__c !=null){
-                mapOfStatusToUpdate.put(dist.State__c, new State__c(Id = dist.State__c,Total_District__c = 0));
+                mapOfStatesToUpdate.put(dist.State__c, new State__c(Id = dist.State__c,Total_District__c = 0));
             }
             if(oldDistrictMap !=null && dist.State__c!= oldDistrictMap.get(dist.Id).State__c){
-                mapOfStatusToUpdate.put(oldDistrictMap.get(dist.Id).State__c,
+                mapOfStatesToUpdate.put(oldDistrictMap.get(dist.Id).State__c,
                                         new State__c(Id = oldDistrictMap.get(dist.Id).State__c,Total_District__c = 0));
             }
               
         }
-        if(!mapOfStatusToUpdate.isEmpty()){
+        if(!mapOfStatesToUpdate.isEmpty()){
             for(AggregateResult result :[SELECT Count(Id)numOfDis, State__c 
                                         FROM District__c WHERE State__c in:mapOfStatusToUpdate.keySet() GROUP BY State__c]){
-                mapOfStatusToUpdate.get((Id)result.get('State__c')).Total_District__c = (Decimal)result.get('numOfDis');   
+                mapOfStatesToUpdate.get((Id)result.get('State__c')).Total_District__c = (Decimal)result.get('numOfDis');   
             }
-            update mapOfStatusToUpdate.values();
+            update mapOfStatesToUpdate.values();
         }  
     }
 }
