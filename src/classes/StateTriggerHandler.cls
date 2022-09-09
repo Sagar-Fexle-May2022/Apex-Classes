@@ -13,7 +13,7 @@ public with sharing class StateTriggerHandler {
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 28/08/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 28/08/2022 - Details what you modified
     **/
-    public static void stateJsonData(List<State__c> newStateList ,Map<Id,State__c> oldStateMap){
+    public static void updateStateJsonData(List<State__c> newStateList ,Map<Id,State__c> oldStateMap){
         Set<Id> stateIds = new Set<Id>();
         for(State__c state: newStateList){
             if(state.Total_District__c != oldStateMap.get(state.Id).Total_District__c){
