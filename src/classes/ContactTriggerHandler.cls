@@ -29,20 +29,17 @@ public with sharing class ContactTriggerHandler {
                                                                 WHERE Id IN: setOfAccountIds]);
             System.debug(mapOfAccount);                                                            
             for(Contact con: newContactList){
-                if(con.Status__c == null) {
-                    for(Account acc : mapOfAccount.values()) {
-                        if(con.AccountId == acc.Id) {
-                            if(acc.Status__c != null){
-                                con.Status__c = acc.Status__c;
-                                System.debug('Contact Status:======== ' + con.Status__c); 
-                            }else if(acc.Status__c == null){
-                                con.Status__c = acc.Property__r.Status__c;
-                                acc.Status__c = acc.Property__r.Status__c;
-                                System.debug('Contact Status:======== ' + con.Status__c);
-                                System.debug('Account Status:======== ' + acc.Status__c);
-                            } 
-                        }
-                    }
+                if(mapOfAccount.containskey(con.AccountId)) {
+                    Account acc = mapOfAccount.get(con.AccountId);
+                    if(acc.Status__c != null){
+                        con.Status__c = acc.Status__c;
+                        System.debug('Contact Status:======== ' + con.Status__c); 
+                    }else if(acc.Status__c == null){
+                        con.Status__c = acc.Property__r.Status__c;
+                        acc.Status__c = acc.Property__r.Status__c;
+                        System.debug('Contact Status:======== ' + con.Status__c);
+                        System.debug('Account Status:======== ' + acc.Status__c);
+                    } 
                 }
             }
         }
