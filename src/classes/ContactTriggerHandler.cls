@@ -22,15 +22,15 @@ public with sharing class ContactTriggerHandler {
         } 
         System.debug(setOfAccountIds);
         if(!setOfAccountIds.isEmpty()){
-            Map<Id,Account> mapOfStatesToUpdate = new Map<Id,Account>([SELECT Id,Status__c,Property__c,
-                                                                       Property__r.Status__c,
-                                                                       Property__r.Name 
-                                                                       FROM Account 
-                                                                       WHERE Id IN: setOfAccountIds]);
-            System.debug(mapOfStatesToUpdate);                                                            
+            Map<Id,Account> mapOfAccount = new Map<Id,Account>([SELECT Id,Status__c,Property__c,
+                                                                Property__r.Status__c,
+                                                                Property__r.Name 
+                                                                FROM Account 
+                                                                WHERE Id IN: setOfAccountIds]);
+            System.debug(mapOfAccount);                                                            
             for(Contact con: newContactList){
                 if(con.Status__c == null) {
-                    for(Account acc : mapOfStatesToUpdate.values()) {
+                    for(Account acc : mapOfAccount.values()) {
                         if(con.AccountId == acc.Id) {
                             if(acc.Status__c != null){
                                 con.Status__c = acc.Status__c;
