@@ -13,7 +13,7 @@ public with sharing class CountryTriggerHandler {
     *     Revision log:   V_1.0 - Created  - Sagar Nirwal - 02/09/2022
     *                     V_1.1 - Modified - Sagar Nirwal - 02/09/2022 - Details what you modified
     **/
-    public static void countryJsonData(List<Country__c> newCountryList ,Map<Id,Country__c> oldCountryMap){
+    public static void updateCountryJsonData(List<Country__c> newCountryList ,Map<Id,Country__c> oldCountryMap){
 
         Set<Id> setOfCountryId = new Set<Id>();
         for(Country__c cou : newCountryList){
