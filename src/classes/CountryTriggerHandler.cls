@@ -45,15 +45,17 @@ public with sharing class CountryTriggerHandler {
                     wCountry.Total_Number_Of_Districts = (Integer)cou.Total_District__c;
 
                     for(State__c st : mapOfStatewithCountryId.values()){    
-                        States wrapState = new States();
-                        wrapState.stateName = st.Name;
-                        wrapState.districts = new List<Districts>();
-                        for(District__c dt : st.Districts__r){
-                            Districts wrapDistrict = new Districts();
-                            wrapDistrict.districtName = dt.Name;
-                            wrapState.districts.add(wrapDistrict);
+                        if(st.Country__c == cou.Id){
+                            States wrapState = new States();
+                            wrapState.stateName = st.Name;
+                            wrapState.districts = new List<Districts>();
+                            for(District__c dt : st.Districts__r){
+                                Districts wrapDistrict = new Districts();
+                                wrapDistrict.districtName = dt.Name;
+                                wrapState.districts.add(wrapDistrict);
+                            }
+                            wCountry.states.add(wrapState);
                         }
-                        wCountry.states.add(wrapState);
                     }
                     String jString = JSON.serialize(wCountry);
                     cou.Country_JASON__c = jString;
