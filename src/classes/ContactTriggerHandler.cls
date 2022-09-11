@@ -16,7 +16,7 @@ public with sharing class ContactTriggerHandler {
     public static void synchronizeContactAccountPropertyRecord(List<Contact> newContactList) {
         Set<Id> setOfAccountIds = new Set<Id>();
         for(Contact con: newContactList){
-            if(con.Status__c == null){
+            if(con.Status__c != null || String.isBlank(con.Status__c)){
                 setOfAccountIds.add(con.AccountId);   
             }
         } 
