@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>calculator</members>
+		<members>childLWC</members>
+		<members>childWebComponent</members>
+		<members>parentLWC</members>
+		<members>parentWebComponent</members>
 		<name>LightningComponentBundle</name>
 	</types>
-	<version>53.0</version>
+	<version>55.0</version>
 </Package>
