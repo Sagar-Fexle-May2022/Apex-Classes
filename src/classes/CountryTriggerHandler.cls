@@ -30,7 +30,7 @@ public with sharing class CountryTriggerHandler {
                                                                             country__r.Total_District__c, Name,Total_District__c,
                                                                             (SELECT id, Name FROM Districts__r)
                                                                             FROM State__c 
-                                                                            WHERE country__r.Id IN : setOfCountryId]);
+                                                                            WHERE Country__c IN : setOfCountryId]);
             System.debug(mapOfStatewithCountryId.values());
 
             for(Country__c cou : newCountryList){
