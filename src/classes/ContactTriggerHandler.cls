@@ -34,12 +34,12 @@ public with sharing class ContactTriggerHandler {
                     if(acc.Status__c != null){
                         con.Status__c = acc.Status__c;
                         System.debug('Contact Status:======== ' + con.Status__c); 
-                    }else if(acc.Status__c == null){
+                    }else if(acc.Property__c != null){
                         con.Status__c = acc.Property__r.Status__c;
                         acc.Status__c = acc.Property__r.Status__c;
                         System.debug('Contact Status:======== ' + con.Status__c);
                         System.debug('Account Status:======== ' + acc.Status__c);
-                    } 
+                    }
                 }
             }
         }
