@@ -1,13 +1,14 @@
 <template>
-    <lightning-card title="Get Data From Child">
-        <p class="slds-p-horizontal_small">
+    <lightning-card variant="Narrow" title="Passing Data From Child-Parent" icon-name="standard:event">
+        <div class="slds-p-horizontal_small">
+            <c-child-l-w-c
+                onprogressvaluechange={hanldeProgressValueChange}
+            ></c-child-l-w-c><br>
+            <h2><b>Parent Component</b></h2><br>
             <lightning-progress-bar
                 value={progressValue}
                 size="large"
             ></lightning-progress-bar>
-            <c-child-l-w-c
-                onprogressvaluechange={hanldeProgressValueChange}
-            ></c-child-l-w-c>
-        </p>
+        </div>
     </lightning-card>
-  </template>
+</template>
