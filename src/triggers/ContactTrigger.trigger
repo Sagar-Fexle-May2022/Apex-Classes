@@ -1,7 +1,7 @@
-trigger ContactTrigger on Contact (before insert) {
+trigger ContactTrigger on Contact (before insert,before update) {
     if(Trigger.isBefore){
-        if(Trigger.isInsert){
-            ContactTriggerHandler.synchronizeContactAccountPropertyRecord(Trigger.new);
+        if(Trigger.isInsert|| Trigger.isBefore){
+            ContactTriggerHandler.synchronizeContactAccountPropertyRecord(Trigger.new,Trigger.oldMap);
         }
     }
 }
