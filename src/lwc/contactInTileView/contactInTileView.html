@@ -1,0 +1,24 @@
+<template>
+	<lightning-card title="Contact Record In Tile View" icon-name="action:call"  size="large" >
+		<div class="slds-card__body_inner">
+			<template if:true={contacts}>
+				<lightning-layout multiple-rows="true" >
+					<template for:each={contacts} for:item="contacts">
+						<lightning-layout-item key={contacts.Id} size={tileSize}  class="slds-var-p-around_x-small" >
+							<lightning-tile label={contacts.Name} class="bear-tile" >
+								<div class="slds-var-p-horizontal_small bear-tile-body">
+									<div class="slds-media__body">
+                                        <lightning-avatar src="https://www.lightningdesignsystem.com/assets/images/avatar2.jpg"></lightning-avatar> 
+										<p class="slds-var-m-bottom_xx-small">Id:{contacts.Id}</p>
+										<p class="slds-var-m-bottom_xx-small">Phone:{contacts.Phone}</p>
+										<p class="slds-var-m-bottom_xx-small">Email:{contacts.Email}</p>
+									</div> 
+                                </div>     
+							</lightning-tile>
+						</lightning-layout-item>
+					</template>
+				</lightning-layout>
+			</template>
+		</div>
+	</lightning-card>
+</template>

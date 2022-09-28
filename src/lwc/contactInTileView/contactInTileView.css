@@ -1,0 +1,11 @@
+.bear-tile {
+    background: rgba(250, 252, 252, 0.952); 
+    display:inline-block;
+    border: 5px solid #020c09;
+}
+div.LARGE {
+    background: red;  
+}
+div.MEDIUM {
+    background: rgb(230, 241, 166);
+}
