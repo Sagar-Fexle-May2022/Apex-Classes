@@ -1,0 +1,13 @@
+<template>
+    <lightning-card variant="Narrow" title="Parent-Child Component" icon-name="standard:event">
+        <div class="slds-p-horizontal_small">
+            <lightning-helptext content="User clicks on submit button, child method which is being called 
+                                    from parent component and changes the value" >
+            </lightning-helptext><br>
+            <!--calling child web component here-->
+            <c-child-web-component></c-child-web-component>
+            <lightning-button class="slds-align_absolute-center" variant="brand" label="Submit" 
+            onclick={handleClick}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

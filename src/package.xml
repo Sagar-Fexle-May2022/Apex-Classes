@@ -6,7 +6,4 @@
 	</types>
 	<types>
 		<members>contactInTileView</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<version>55.0</version>
 </Package>
